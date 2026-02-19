@@ -7,15 +7,15 @@
 
 <style>
 
-/* =========================================
-   GLOBAL STYLES
-========================================= */
+/* =====================================
+   GLOBAL
+===================================== */
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family:'Segoe UI',sans-serif;
 }
 
 body{
@@ -23,23 +23,29 @@ body{
   overflow:hidden;
   color:white;
   background:
-    radial-gradient(circle at 15% 25%, rgba(0,255,255,0.07), transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(140,0,255,0.07), transparent 40%),
-    linear-gradient(135deg,#040411,#0a0f2a,#040411);
+    radial-gradient(circle at 20% 30%, rgba(0,255,255,0.06), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(140,0,255,0.06), transparent 40%),
+    linear-gradient(135deg,#050512,#0b1028,#050512);
   display:flex;
   justify-content:center;
   align-items:center;
-  animation:fadeIn 1s ease forwards;
+  opacity:0;
+  transition:opacity 0.6s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
+/* Page visible */
+body.loaded{
+  opacity:1;
 }
 
-/* =========================================
-   MAIN CONTAINER
-========================================= */
+/* Fade out */
+body.fade-out{
+  opacity:0;
+}
+
+/* =====================================
+   MAIN AREA
+===================================== */
 
 .main{
   position:relative;
@@ -48,9 +54,38 @@ body{
   height:80vh;
 }
 
-/* =========================================
-   SESSION BUBBLES
-========================================= */
+/* =====================================
+   CURVED CONNECTING PATH
+===================================== */
+
+.path{
+  position:absolute;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.path svg{
+  width:100%;
+  height:100%;
+}
+
+.path path{
+  fill:none;
+  stroke:rgba(0,255,255,0.15);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-dasharray:8 10;
+  animation:dash 20s linear infinite;
+}
+
+@keyframes dash{
+  to{ stroke-dashoffset:-1000; }
+}
+
+/* =====================================
+   BUBBLES
+===================================== */
 
 .bubble{
   position:absolute;
@@ -65,7 +100,6 @@ body{
   align-items:center;
   text-align:center;
   font-weight:600;
-  font-size:1rem;
   cursor:pointer;
   transition:0.4s ease;
   opacity:0;
@@ -73,35 +107,36 @@ body{
   box-shadow:0 0 25px rgba(0,255,255,0.12);
 }
 
-/* Hover effect */
+.bubble span{
+  pointer-events:none;
+}
+
 .bubble:hover{
   transform:scale(1.1);
   box-shadow:0 0 40px rgba(140,0,255,0.5);
 }
 
-/* Floating animation */
 @keyframes float{
-  0%{transform:translateY(0px);}
+  0%{transform:translateY(0);}
   50%{transform:translateY(-10px);}
-  100%{transform:translateY(0px);}
+  100%{transform:translateY(0);}
 }
 
-/* Elegant zigzag positioning */
-.b1{ top:10%; left:20%; }
-.b2{ top:35%; left:60%; }
-.b3{ top:60%; left:25%; }
-.b4{ top:20%; left:75%; }
-.b5{ top:65%; left:65%; }
-
-/* Reveal animation */
 .show{
   opacity:1;
   transform:translateY(0);
 }
 
-/* =========================================
-   BOTTOM NAVIGATION
-========================================= */
+/* Zigzag Layout */
+.b1{ top:8%; left:20%; }
+.b2{ top:35%; left:60%; }
+.b3{ top:60%; left:25%; }
+.b4{ top:20%; left:75%; }
+.b5{ top:65%; left:65%; }
+
+/* =====================================
+   BOTTOM NAV
+===================================== */
 
 .navbar{
   position:fixed;
@@ -128,25 +163,31 @@ body{
   transition:0.3s ease;
 }
 
-.nav-item span{
-  display:block;
-  font-size:1.6rem;
+.nav-item svg{
+  width:24px;
+  height:24px;
   margin-bottom:4px;
+  fill:none;
+  stroke:#aaa;
+  stroke-width:2;
 }
 
 .nav-item.active{
   color:#00f5ff;
-  text-shadow:0 0 12px #00f5ff;
 }
 
-/* Click micro animation */
+.nav-item.active svg{
+  stroke:#00f5ff;
+  filter:drop-shadow(0 0 6px #00f5ff);
+}
+
 .nav-item:active{
   transform:scale(0.9);
 }
 
-/* =========================================
+/* =====================================
    RESPONSIVE
-========================================= */
+===================================== */
 
 @media(max-width:768px){
 
@@ -162,13 +203,14 @@ body{
     align-items:center;
   }
 
+  .path{display:none;}
+
   .bubble{
     position:relative;
     margin:20px 0;
     left:0 !important;
     top:0 !important;
   }
-
 }
 
 </style>
@@ -177,32 +219,48 @@ body{
 
 <div class="main">
 
-  <div class="bubble b1" onclick="goSession(1)">Foundation</div>
-  <div class="bubble b2" onclick="goSession(2)">Strategy</div>
-  <div class="bubble b3" onclick="goSession(3)">Execution</div>
-  <div class="bubble b4" onclick="goSession(4)">Scaling</div>
-  <div class="bubble b5" onclick="goSession(5)">Leadership</div>
+  <!-- Curved SVG path -->
+  <div class="path">
+    <svg>
+      <path d="M200,80 C400,150 500,100 700,200 
+               S900,350 500,450 
+               S300,600 800,650"/>
+    </svg>
+  </div>
+
+  <div class="bubble b1" onclick="goSession(1)"><span>Foundation</span></div>
+  <div class="bubble b2" onclick="goSession(2)"><span>Strategy</span></div>
+  <div class="bubble b3" onclick="goSession(3)"><span>Execution</span></div>
+  <div class="bubble b4" onclick="goSession(4)"><span>Scaling</span></div>
+  <div class="bubble b5" onclick="goSession(5)"><span>Leadership</span></div>
 
 </div>
 
-<!-- =========================================
-     BOTTOM NAVIGATION
-========================================= -->
-
+<!-- Bottom Navigation -->
 <div class="navbar">
 
   <div class="nav-item" onclick="goProgress()">
-    <span>📊</span>
+    <!-- Progress SVG -->
+    <svg viewBox="0 0 24 24">
+      <path d="M4 20V10M10 20V4M16 20v-6M22 20V14"/>
+    </svg>
     Progress
   </div>
 
   <div class="nav-item active" onclick="goHome()">
-    <span>🏠</span>
+    <!-- Home SVG -->
+    <svg viewBox="0 0 24 24">
+      <path d="M3 11l9-7 9 7M5 10v10h14V10"/>
+    </svg>
     Home
   </div>
 
   <div class="nav-item" onclick="goProfile()">
-    <span>👤</span>
+    <!-- Profile SVG -->
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c2-4 14-4 16 0"/>
+    </svg>
     Profile
   </div>
 
@@ -210,37 +268,44 @@ body{
 
 <script>
 
-/* =========================================
-   Animate Bubbles One-by-One
-========================================= */
+/* Fade-in on load */
+window.addEventListener("load", ()=>{
+  document.body.classList.add("loaded");
+});
 
+/* Animate bubbles sequentially */
 const bubbles = document.querySelectorAll('.bubble');
 
 bubbles.forEach((bubble, index)=>{
   setTimeout(()=>{
     bubble.classList.add('show');
-    bubble.style.animation = "float 6s ease-in-out infinite";
+    bubble.style.animation="float 6s ease-in-out infinite";
   }, index * 350);
 });
 
-/* =========================================
-   Navigation Functions
-========================================= */
+/* Smooth page transition */
+function smoothNavigate(url){
+  document.body.classList.add("fade-out");
+  setTimeout(()=>{
+    window.location.href = url;
+  }, 500);
+}
 
+/* Navigation */
 function goSession(num){
-  window.location.href = `session${num}.html`;
+  smoothNavigate(`session${num}.html`);
 }
 
 function goHome(){
-  window.location.href = "homepage.html";
+  smoothNavigate("homepage.html");
 }
 
 function goProgress(){
-  window.location.href = "progress.html";
+  smoothNavigate("progress.html");
 }
 
 function goProfile(){
-  window.location.href = "profile.html";
+  smoothNavigate("profile.html");
 }
 
 </script>
