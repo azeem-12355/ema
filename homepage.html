@@ -7,9 +7,9 @@
 
 <style>
 
-/* =====================================
+/* ===============================
    GLOBAL
-===================================== */
+=============================== */
 
 *{
   margin:0;
@@ -21,42 +21,52 @@
 body{
   height:100vh;
   overflow:hidden;
-  color:white;
   background:
-    radial-gradient(circle at 20% 30%, rgba(0,255,255,0.06), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(140,0,255,0.06), transparent 40%),
+    radial-gradient(circle at 20% 30%, rgba(0,255,255,0.05), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(140,0,255,0.05), transparent 40%),
     linear-gradient(135deg,#050512,#0b1028,#050512);
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  color:white;
   opacity:0;
   transition:opacity 0.6s ease;
 }
 
-/* Page visible */
-body.loaded{
-  opacity:1;
+body.loaded{opacity:1;}
+body.fade-out{opacity:0;}
+
+/* ===============================
+   HEADER
+=============================== */
+
+.header{
+  position:absolute;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:1.2rem;
+  letter-spacing:1px;
+  color:#aaa;
 }
 
-/* Fade out */
-body.fade-out{
-  opacity:0;
+.header span{
+  color:#00f5ff;
+  font-weight:600;
 }
 
-/* =====================================
-   MAIN AREA
-===================================== */
+/* ===============================
+   MAIN
+=============================== */
 
 .main{
   position:relative;
   width:100%;
   max-width:1200px;
-  height:80vh;
+  height:100%;
+  margin:auto;
 }
 
-/* =====================================
-   CURVED CONNECTING PATH
-===================================== */
+/* ===============================
+   CURVE PATH + NODES
+=============================== */
 
 .path{
   position:absolute;
@@ -74,23 +84,23 @@ body.fade-out{
   fill:none;
   stroke:rgba(0,255,255,0.15);
   stroke-width:2;
-  stroke-linecap:round;
   stroke-dasharray:8 10;
-  animation:dash 20s linear infinite;
 }
 
-@keyframes dash{
-  to{ stroke-dashoffset:-1000; }
+/* Moving glowing node */
+.node{
+  fill:#00f5ff;
+  filter:drop-shadow(0 0 8px #00f5ff);
 }
 
-/* =====================================
+/* ===============================
    BUBBLES
-===================================== */
+=============================== */
 
 .bubble{
   position:absolute;
-  width:160px;
-  height:160px;
+  width:170px;
+  height:170px;
   border-radius:50%;
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(18px);
@@ -98,24 +108,26 @@ body.fade-out{
   display:flex;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   text-align:center;
-  font-weight:600;
   cursor:pointer;
-  transition:0.4s ease;
+  transition:0.3s ease;
   opacity:0;
   transform:translateY(40px);
   box-shadow:0 0 25px rgba(0,255,255,0.12);
 }
 
-.bubble span{
-  pointer-events:none;
-}
-
 .bubble:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 40px rgba(140,0,255,0.5);
+  transform:scale(1.08);
+  box-shadow:0 0 45px rgba(140,0,255,0.6);
 }
 
+.bubble span{
+  margin-top:8px;
+  font-size:0.9rem;
+}
+
+/* Floating */
 @keyframes float{
   0%{transform:translateY(0);}
   50%{transform:translateY(-10px);}
@@ -128,184 +140,214 @@ body.fade-out{
 }
 
 /* Zigzag Layout */
-.b1{ top:8%; left:20%; }
-.b2{ top:35%; left:60%; }
-.b3{ top:60%; left:25%; }
-.b4{ top:20%; left:75%; }
-.b5{ top:65%; left:65%; }
+.b1{ top:15%; left:20%; }
+.b2{ top:40%; left:60%; }
+.b3{ top:65%; left:25%; }
+.b4{ top:25%; left:75%; }
+.b5{ top:70%; left:65%; }
 
-/* =====================================
-   BOTTOM NAV
-===================================== */
+/* ===============================
+   PROGRESS RING
+=============================== */
 
-.navbar{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:480px;
-  height:70px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(20px);
-  border-radius:40px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  box-shadow:0 0 30px rgba(0,0,0,0.6);
+.progress-ring{
+  transform:rotate(-90deg);
 }
 
-.nav-item{
-  text-align:center;
-  font-size:0.75rem;
-  cursor:pointer;
-  color:#aaa;
-  transition:0.3s ease;
-}
-
-.nav-item svg{
-  width:24px;
-  height:24px;
-  margin-bottom:4px;
+.progress-ring circle{
   fill:none;
-  stroke:#aaa;
-  stroke-width:2;
+  stroke-width:6;
 }
 
-.nav-item.active{
-  color:#00f5ff;
+.progress-bg{
+  stroke:rgba(255,255,255,0.08);
 }
 
-.nav-item.active svg{
+.progress-fill{
   stroke:#00f5ff;
+  stroke-linecap:round;
   filter:drop-shadow(0 0 6px #00f5ff);
+  transition:stroke-dashoffset 1s ease;
 }
 
-.nav-item:active{
-  transform:scale(0.9);
-}
-
-/* =====================================
+/* ===============================
    RESPONSIVE
-===================================== */
+=============================== */
 
 @media(max-width:768px){
 
-  body{
-    overflow:auto;
-    padding-top:40px;
-  }
-
-  .main{
-    height:auto;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
+  body{overflow:auto;}
 
   .path{display:none;}
 
   .bubble{
     position:relative;
-    margin:20px 0;
+    margin:25px auto;
     left:0 !important;
     top:0 !important;
   }
+
 }
 
 </style>
 </head>
 <body>
 
-<div class="main">
-
-  <!-- Curved SVG path -->
-  <div class="path">
-    <svg>
-      <path d="M200,80 C400,150 500,100 700,200 
-               S900,350 500,450 
-               S300,600 800,650"/>
-    </svg>
-  </div>
-
-  <div class="bubble b1" onclick="goSession(1)"><span>Foundation</span></div>
-  <div class="bubble b2" onclick="goSession(2)"><span>Strategy</span></div>
-  <div class="bubble b3" onclick="goSession(3)"><span>Execution</span></div>
-  <div class="bubble b4" onclick="goSession(4)"><span>Scaling</span></div>
-  <div class="bubble b5" onclick="goSession(5)"><span>Leadership</span></div>
-
+<div class="header">
+  Welcome back, <span id="username">Founder</span>
 </div>
 
-<!-- Bottom Navigation -->
-<div class="navbar">
+<div class="main">
 
-  <div class="nav-item" onclick="goProgress()">
-    <!-- Progress SVG -->
-    <svg viewBox="0 0 24 24">
-      <path d="M4 20V10M10 20V4M16 20v-6M22 20V14"/>
+  <!-- SVG Path -->
+  <div class="path">
+    <svg>
+      <path id="curve"
+        d="M200,120 C400,180 600,100 800,220 
+           S900,450 500,520 
+           S300,650 850,700"/>
+      <circle id="movingNode" r="6" class="node"/>
     </svg>
-    Progress
   </div>
 
-  <div class="nav-item active" onclick="goHome()">
-    <!-- Home SVG -->
-    <svg viewBox="0 0 24 24">
-      <path d="M3 11l9-7 9 7M5 10v10h14V10"/>
+  <!-- Bubbles -->
+  <div class="bubble b1" onclick="goSession(1)">
+    <svg class="progress-ring" width="120" height="120">
+      <circle class="progress-bg" cx="60" cy="60" r="50"/>
+      <circle class="progress-fill" cx="60" cy="60" r="50"/>
     </svg>
-    Home
+    <span>Foundation</span>
   </div>
 
-  <div class="nav-item" onclick="goProfile()">
-    <!-- Profile SVG -->
-    <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 20c2-4 14-4 16 0"/>
+  <div class="bubble b2" onclick="goSession(2)">
+    <svg class="progress-ring" width="120" height="120">
+      <circle class="progress-bg" cx="60" cy="60" r="50"/>
+      <circle class="progress-fill" cx="60" cy="60" r="50"/>
     </svg>
-    Profile
+    <span>Strategy</span>
+  </div>
+
+  <div class="bubble b3" onclick="goSession(3)">
+    <svg class="progress-ring" width="120" height="120">
+      <circle class="progress-bg" cx="60" cy="60" r="50"/>
+      <circle class="progress-fill" cx="60" cy="60" r="50"/>
+    </svg>
+    <span>Execution</span>
+  </div>
+
+  <div class="bubble b4" onclick="goSession(4)">
+    <svg class="progress-ring" width="120" height="120">
+      <circle class="progress-bg" cx="60" cy="60" r="50"/>
+      <circle class="progress-fill" cx="60" cy="60" r="50"/>
+    </svg>
+    <span>Scaling</span>
+  </div>
+
+  <div class="bubble b5" onclick="goSession(5)">
+    <svg class="progress-ring" width="120" height="120">
+      <circle class="progress-bg" cx="60" cy="60" r="50"/>
+      <circle class="progress-fill" cx="60" cy="60" r="50"/>
+    </svg>
+    <span>Leadership</span>
   </div>
 
 </div>
 
 <script>
 
-/* Fade-in on load */
-window.addEventListener("load", ()=>{
+/* ===============================
+   PAGE LOAD
+=============================== */
+
+window.addEventListener("load",()=>{
   document.body.classList.add("loaded");
 });
 
-/* Animate bubbles sequentially */
+/* Dynamic username */
+const name = localStorage.getItem("emaName") || "Founder";
+document.getElementById("username").innerText = name;
+
+/* ===============================
+   ANIMATE BUBBLES
+=============================== */
+
 const bubbles = document.querySelectorAll('.bubble');
 
-bubbles.forEach((bubble, index)=>{
+bubbles.forEach((bubble,index)=>{
   setTimeout(()=>{
-    bubble.classList.add('show');
+    bubble.classList.add("show");
     bubble.style.animation="float 6s ease-in-out infinite";
-  }, index * 350);
+  }, index*300);
 });
 
-/* Smooth page transition */
-function smoothNavigate(url){
+/* ===============================
+   PROGRESS RINGS
+=============================== */
+
+document.querySelectorAll('.progress-fill').forEach((circle,i)=>{
+  const radius = circle.r.baseVal.value;
+  const circumference = 2*Math.PI*radius;
+  circle.style.strokeDasharray = circumference;
+  const progress = (i+1)*15; // demo %
+  const offset = circumference - (progress/100)*circumference;
+  circle.style.strokeDashoffset = offset;
+});
+
+/* ===============================
+   MOVING NODE
+=============================== */
+
+const path = document.getElementById("curve");
+const node = document.getElementById("movingNode");
+const length = path.getTotalLength();
+let progress = 0;
+
+function animateNode(){
+  progress += 1;
+  if(progress > length) progress = 0;
+  const point = path.getPointAtLength(progress);
+  node.setAttribute("cx", point.x);
+  node.setAttribute("cy", point.y);
+  requestAnimationFrame(animateNode);
+}
+animateNode();
+
+/* ===============================
+   MAGNETIC EFFECT
+=============================== */
+
+bubbles.forEach(bubble=>{
+  bubble.addEventListener("mousemove",(e)=>{
+    const rect = bubble.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width/2;
+    const y = e.clientY - rect.top - rect.height/2;
+    bubble.style.transform = `translate(${x*0.08}px,${y*0.08}px)`;
+  });
+
+  bubble.addEventListener("mouseleave",()=>{
+    bubble.style.transform="";
+  });
+});
+
+/* ===============================
+   INTRO SOUND
+=============================== */
+
+const audio = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+window.addEventListener("click",()=>{
+  audio.volume = 0.2;
+  audio.play();
+},{once:true});
+
+/* ===============================
+   NAVIGATION
+=============================== */
+
+function goSession(num){
   document.body.classList.add("fade-out");
   setTimeout(()=>{
-    window.location.href = url;
-  }, 500);
-}
-
-/* Navigation */
-function goSession(num){
-  smoothNavigate(`session${num}.html`);
-}
-
-function goHome(){
-  smoothNavigate("homepage.html");
-}
-
-function goProgress(){
-  smoothNavigate("progress.html");
-}
-
-function goProfile(){
-  smoothNavigate("profile.html");
+    window.location.href=`session${num}.html`;
+  },500);
 }
 
 </script>
