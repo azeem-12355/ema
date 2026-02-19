@@ -9,18 +9,16 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 body{
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     min-height:100vh;
+    background:
+        radial-gradient(circle at 20% 20%, #1f3b73 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, #2b5876 0%, transparent 40%),
+        linear-gradient(135deg,#0f172a,#111827,#0f2027);
     color:white;
-    overflow-x:hidden;
-}
-
-/* Smooth page animation */
-body{
     animation:fadeIn 1s ease;
 }
 
@@ -34,100 +32,125 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:25px 60px;
+    padding:25px 70px;
+    backdrop-filter:blur(20px);
     background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
-    font-size:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:20px;
     font-weight:600;
-    letter-spacing:1px;
+    letter-spacing:0.5px;
+}
+
+.logo svg{
+    width:28px;
+    fill:#00eaff;
+    filter:drop-shadow(0 0 8px #00eaff);
 }
 
 .username{
-    font-size:18px;
+    font-size:16px;
     opacity:0.9;
 }
 
-/* HERO SECTION */
+/* HERO */
 .hero{
     text-align:center;
-    margin-top:40px;
+    margin-top:60px;
 }
 
 .hero h1{
-    font-size:38px;
+    font-size:42px;
     font-weight:600;
+    background:linear-gradient(90deg,#00eaff,#4facfe);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-    margin-top:10px;
+    margin-top:15px;
     opacity:0.7;
+    font-size:18px;
 }
 
-/* COURSE GRID */
+/* GRID */
 .grid{
     width:85%;
-    margin:60px auto;
+    margin:70px auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:35px;
 }
 
-/* COURSE CARD */
+/* CARD */
 .card{
-    background:rgba(255,255,255,0.07);
-    backdrop-filter:blur(20px);
-    padding:40px 20px;
-    border-radius:20px;
-    text-align:center;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(25px);
+    padding:45px 30px;
+    border-radius:24px;
     transition:0.4s;
-    cursor:pointer;
     border:1px solid rgba(255,255,255,0.1);
     position:relative;
+    text-align:center;
 }
 
-/* Unlock card */
-.card.active{
-    border:1px solid #00f7ff;
-    box-shadow:0 0 20px rgba(0,247,255,0.5);
-}
-
-.card.active:hover{
-    transform:translateY(-10px) scale(1.05);
-    box-shadow:0 15px 40px rgba(0,247,255,0.4);
-}
-
-/* Locked */
-.card.locked{
-    opacity:0.4;
-    cursor:not-allowed;
-}
-
-.card.locked::after{
-    content:"🔒 Locked";
-    position:absolute;
-    bottom:15px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:14px;
-}
-
-/* ICON */
 .card svg{
-    width:45px;
+    width:50px;
     margin-bottom:20px;
-    fill:white;
+    fill:#00eaff;
 }
 
 .card h3{
     margin-bottom:10px;
+    font-size:20px;
 }
 
 .card p{
     font-size:14px;
     opacity:0.7;
+}
+
+/* ACTIVE */
+.card.active{
+    box-shadow:0 15px 40px rgba(0,234,255,0.25);
+    border:1px solid #00eaff;
+    cursor:pointer;
+}
+
+.card.active:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 60px rgba(0,234,255,0.35);
+}
+
+/* LOCKED */
+.card.locked{
+    opacity:0.4;
+}
+
+.card.locked::after{
+    content:"Locked";
+    position:absolute;
+    bottom:18px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+/* SUBTLE GLOW ANIMATION */
+.card.active{
+    animation:glowPulse 3s infinite;
+}
+
+@keyframes glowPulse{
+    0%{box-shadow:0 0 15px rgba(0,234,255,0.3);}
+    50%{box-shadow:0 0 35px rgba(0,234,255,0.6);}
+    100%{box-shadow:0 0 15px rgba(0,234,255,0.3);}
 }
 
 </style>
@@ -136,59 +159,69 @@ header{
 <body>
 
 <header>
-    <div class="logo">Entrepreneur Mastery Academy</div>
-    <div class="username">Welcome, <span id="username"></span> 🚀</div>
+    <div class="logo">
+        <!-- Rocket Logo Icon -->
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C8 6 7 10 7 10s4-1 8-5c0 0-1 4-5 8 0 0 4-1 8-5 0 0-1 4-5 8l-3 3-3-3c4-4 5-8 5-8s-4 1-8 5c0 0 1-4 5-8z"/>
+        </svg>
+        Entrepreneur Mastery
+    </div>
+
+    <div class="username">
+        Welcome, <span id="username"></span>
+    </div>
 </header>
 
 <section class="hero">
     <h1>Your Learning Dashboard</h1>
-    <p>Master the path to billion-dollar thinking</p>
+    <p>Build the mind. Build the system. Build the empire.</p>
 </section>
 
 <section class="grid">
 
-    <!-- FIRST UNLOCKED -->
+    <!-- UNLOCKED -->
     <div class="card active">
+        <!-- Mindset Icon -->
         <svg viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zm0 7l10 5-10 5-10-5 10-5z"/>
+            <path d="M9 2a7 7 0 017 7c0 3-2 5-3 6v2H9v-2c-1-1-3-3-3-6a7 7 0 013-6z"/>
         </svg>
         <h3>Foundation</h3>
-        <p>Build your entrepreneurial mindset</p>
+        <p>Entrepreneurial thinking & clarity</p>
     </div>
 
     <div class="card locked">
+        <!-- Chart Icon -->
         <svg viewBox="0 0 24 24">
-            <path d="M3 13h2v-2H3v2zm4 0h14v-2H7v2z"/>
+            <path d="M3 3h2v18H3V3zm4 8h2v10H7V11zm4-6h2v16h-2V5zm4 4h2v12h-2V9z"/>
         </svg>
         <h3>Business Models</h3>
-        <p>Learn scalable business structures</p>
+        <p>Design scalable companies</p>
     </div>
 
     <div class="card locked">
+        <!-- Gear Icon -->
         <svg viewBox="0 0 24 24">
-            <path d="M12 6V2l4 4-4 4V6z"/>
+            <path d="M12 8a4 4 0 100 8 4 4 0 000-8z"/>
         </svg>
         <h3>Scaling Systems</h3>
-        <p>Automate and multiply revenue</p>
+        <p>Automation & growth engines</p>
     </div>
 
     <div class="card locked">
+        <!-- Crown Icon -->
         <svg viewBox="0 0 24 24">
-            <path d="M12 3l7 18H5l7-18z"/>
+            <path d="M2 7l5 5 5-8 5 8 5-5-2 10H4L2 7z"/>
         </svg>
         <h3>Billionaire Mindset</h3>
-        <p>Elite level thinking & leadership</p>
+        <p>Elite leadership & vision</p>
     </div>
 
 </section>
 
 <script>
-
-/* Dynamic Username */
 document.getElementById("username").textContent =
     localStorage.getItem("username") || "Founder";
-
 </script>
 
 </body>
-</html> 
+</html>
