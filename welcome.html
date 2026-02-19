@@ -3,246 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Founder Dashboard</title>
+<title>Welcome - EMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================================
-   GLOBAL STYLES
-========================================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-  height:100vh;
-  overflow:hidden;
-  color:white;
-  background:
-    radial-gradient(circle at 15% 25%, rgba(0,255,255,0.07), transparent 40%),
-    radial-gradient(circle at 85% 75%, rgba(140,0,255,0.07), transparent 40%),
-    linear-gradient(135deg,#040411,#0a0f2a,#040411);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  animation:fadeIn 1s ease forwards;
+height:100vh;
+background:linear-gradient(135deg,#000000,#1a1a40,#0f0c29);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+overflow:hidden;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
+.card{
+background:rgba(255,255,255,0.05);
+padding:50px;
+border-radius:25px;
+backdrop-filter:blur(25px);
+box-shadow:0 0 60px rgba(0,0,0,0.7);
+text-align:center;
+width:90%;
+max-width:600px;
+animation:fade 1s ease;
 }
 
-/* =========================================
-   MAIN CONTAINER
-========================================= */
-
-.main{
-  position:relative;
-  width:100%;
-  max-width:1200px;
-  height:80vh;
+@keyframes fade{
+from{opacity:0;transform:translateY(40px);}
+to{opacity:1;transform:translateY(0);}
 }
 
-/* =========================================
-   SESSION BUBBLES
-========================================= */
-
-.bubble{
-  position:absolute;
-  width:160px;
-  height:160px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,0.08);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  font-weight:600;
-  font-size:1rem;
-  cursor:pointer;
-  transition:0.4s ease;
-  opacity:0;
-  transform:translateY(40px);
-  box-shadow:0 0 25px rgba(0,255,255,0.12);
+h1{
+font-size:2.5rem;
+margin-bottom:20px;
+background:linear-gradient(90deg,#00f5ff,#9f00ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-/* Hover effect */
-.bubble:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 40px rgba(140,0,255,0.5);
+p{
+color:#ccc;
+margin-bottom:30px;
 }
 
-/* Floating animation */
-@keyframes float{
-  0%{transform:translateY(0px);}
-  50%{transform:translateY(-10px);}
-  100%{transform:translateY(0px);}
+button{
+padding:15px 40px;
+border:none;
+border-radius:50px;
+font-weight:600;
+cursor:pointer;
+background:linear-gradient(90deg,#00f5ff,#9f00ff);
+color:white;
+transition:0.4s;
 }
 
-/* Elegant zigzag positioning */
-.b1{ top:10%; left:20%; }
-.b2{ top:35%; left:60%; }
-.b3{ top:60%; left:25%; }
-.b4{ top:20%; left:75%; }
-.b5{ top:65%; left:65%; }
-
-/* Reveal animation */
-.show{
-  opacity:1;
-  transform:translateY(0);
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 30px #9f00ff;
 }
-
-/* =========================================
-   BOTTOM NAVIGATION
-========================================= */
-
-.navbar{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:480px;
-  height:70px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(20px);
-  border-radius:40px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  box-shadow:0 0 30px rgba(0,0,0,0.6);
-}
-
-.nav-item{
-  text-align:center;
-  font-size:0.75rem;
-  cursor:pointer;
-  color:#aaa;
-  transition:0.3s ease;
-}
-
-.nav-item span{
-  display:block;
-  font-size:1.6rem;
-  margin-bottom:4px;
-}
-
-.nav-item.active{
-  color:#00f5ff;
-  text-shadow:0 0 12px #00f5ff;
-}
-
-/* Click micro animation */
-.nav-item:active{
-  transform:scale(0.9);
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media(max-width:768px){
-
-  body{
-    overflow:auto;
-    padding-top:40px;
-  }
-
-  .main{
-    height:auto;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .bubble{
-    position:relative;
-    margin:20px 0;
-    left:0 !important;
-    top:0 !important;
-  }
-
-}
-
 </style>
 </head>
 <body>
 
-<div class="main">
-
-  <div class="bubble b1" onclick="goSession(1)">Foundation</div>
-  <div class="bubble b2" onclick="goSession(2)">Strategy</div>
-  <div class="bubble b3" onclick="goSession(3)">Execution</div>
-  <div class="bubble b4" onclick="goSession(4)">Scaling</div>
-  <div class="bubble b5" onclick="goSession(5)">Leadership</div>
-
-</div>
-
-<!-- =========================================
-     BOTTOM NAVIGATION
-========================================= -->
-
-<div class="navbar">
-
-  <div class="nav-item" onclick="goProgress()">
-    <span>📊</span>
-    Progress
-  </div>
-
-  <div class="nav-item active" onclick="goHome()">
-    <span>🏠</span>
-    Home
-  </div>
-
-  <div class="nav-item" onclick="goProfile()">
-    <span>👤</span>
-    Profile
-  </div>
-
+<div class="card">
+<h1 id="welcomeText"></h1>
+<p>Your Entrepreneur Journey Starts Now 🚀</p>
+<button onclick="enterAcademy()">Enter Academy</button>
 </div>
 
 <script>
+const name = localStorage.getItem("emaName") || "Future Billionaire";
+document.getElementById("welcomeText").innerText = "Welcome, " + name + "!";
 
-/* =========================================
-   Animate Bubbles One-by-One
-========================================= */
-
-const bubbles = document.querySelectorAll('.bubble');
-
-bubbles.forEach((bubble, index)=>{
-  setTimeout(()=>{
-    bubble.classList.add('show');
-    bubble.style.animation = "float 6s ease-in-out infinite";
-  }, index * 350);
-});
-
-/* =========================================
-   Navigation Functions
-========================================= */
-
-function goSession(num){
-  window.location.href = `session${num}.html`;
+function enterAcademy(){
+window.location.href="homepage.html";
 }
-
-function goHome(){
-  window.location.href = "homepage.html";
-}
-
-function goProgress(){
-  window.location.href = "progress.html";
-}
-
-function goProfile(){
-  window.location.href = "profile.html";
-}
-
 </script>
 
 </body>
