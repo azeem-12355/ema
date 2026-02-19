@@ -3,14 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Academy Homepage</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Welcome - Entrepreneur Mastery Academy</title>
 <style>
-body{font-family:'Poppins',sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; background:#0f0c29; color:white; text-align:center;}
-h1{font-size:3rem; background: linear-gradient(90deg,#00f5ff,#9f00ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+/* ===== GLOBAL STYLES ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+    height:100vh; width:100vw; overflow:hidden;
+    background: linear-gradient(135deg,#0f0c29,#1a1a40,#000);
+    color:white; display:flex; justify-content:center; align-items:center;
+}
+canvas#particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;}
+.container{
+    text-align:center; padding:20px; max-width:600px;
+    animation:fadeIn 1s ease forwards; opacity:0; transform:translateY(20px);
+}
+@keyframes fadeIn{to{opacity:1; transform:translateY(0);}}
+
+h1{
+    font-size:3rem; font-weight:800; margin-bottom:15px;
+    background: linear-gradient(90deg,#00f5ff,#9f00ff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow: 0 0 10px rgba(0,255,255,0.3), 0 0 20px rgba(159,0,255,0.3);
+    animation:textFade 2s ease forwards;
+}
+@keyframes textFade{0%{opacity:0; transform:translateY(-20px);}100%{opacity:1; transform:translateY(0);}}
+
+p.subheadline{
+    font-size:1.2rem; color:#aaa; margin-bottom:25px; opacity:0;
+    animation:fadeUp 2s ease forwards; animation-delay:0.5s;
+}
+@keyframes fadeUp{0%{opacity:0; transform:translateY(10px);}100%{opacity:1; transform:translateY(0);}}
+
+.stats{
+    font-size:0.95rem; color:#ccc; margin-bottom:40px; opacity:0;
+    animation:fadeUp 2s ease forwards; animation-delay:1s;
+}
+
+.btn-primary{
+    padding:16px 45px; border-radius:50px; border:none; font-weight:600;
+    font-size:1.1rem; cursor:pointer;
+    background:linear-gradient(90deg,#00f5ff,#9f00ff);
+    color:white; box-shadow:0 0 15px #9f00ff;
+    transition:0.4s;
+}
+.btn-primary:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 30px #9f00ff, 0 0 50px #00f5ff;
+}
+
+/* ===== RESPONSIVENESS ===== */
+@media(max-width:768px){
+    h1{font-size:2rem;}
+    p.subheadline{font-size:1rem;}
+    .btn-primary{padding:14px 35px;font-size:1rem;}
+}
 </style>
 </head>
 <body>
-<h1>Welcome to Entrepreneur Mastery Academy!</h1>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+    <h1 id="headline">Welcome, User!</h1>
+    <p class="subheadline" id="quote">“Your journey to building a billion-dollar mindset begins now.”</p>
+    <div class="stats" id="stats">Courses completed: 0</div>
+    <button class="btn-primary" id="dashboardBtn">Continue to Dashboard</button>
+</div>
+
+<script>
+// ===== CHECK USER LOGIN =====
+const userName = localStorage.getItem("emaUser");
+if(!userName){
+    window.location.href = "signup.html"; // redirect if not signed up
+} else {
+    document.getElementById("headline").textContent = `Welcome, ${userName}!`;
+}
+
+// ===== DASHBOARD BUTTON =====
+document.getElementById("dashboardBtn").addEventListener("click", ()=>{
+    document.body.style.opacity = "0";
+    setTimeout(()=>{window.location.href="homepage.html";},500);
+});
+
+// ===== PARTICLE BACKGROUND =====
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+class Particle{
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.size = Math.random()*2+1;
+        this.speedX = Math.random()*1-0.5;
+        this.speedY = Math.random()*1-0.5;
+    }
+    update(){
+        this.x += this.speedX; this.y += this.speedY;
+        if(this.x>canvas.width||this.x<0) this.speedX*=-1;
+        if(this.y>canvas.height||this.y<0) this.speedY*=-1;
+    }
+    draw(){
+        ctx.fillStyle = "rgba(159,0,255,0.7)";
+        ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill();
+    }
+}
+let particlesArray=[];
+function init(){particlesArray=[]; for(let i=0;i<120;i++){particlesArray.push(new Particle());}}
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particlesArray.forEach(p=>{p.update();p.draw();});
+    requestAnimationFrame(animate);
+}
+init(); animate();
+window.addEventListener("resize",()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight; init();});
+
+// ===== OPTIONAL MOTIVATIONAL QUOTES =====
+const quotes = [
+    "“Your journey to building a billion-dollar mindset begins now.”",
+    "“Ideas are easy. Execution is everything.”",
+    "“Focus, hustle, repeat.”",
+    "“Every master was once a beginner.”",
+];
+let quoteIndex = 0;
+setInterval(()=>{
+    document.getElementById("quote").textContent = quotes[quoteIndex];
+    quoteIndex = (quoteIndex+1)%quotes.length;
+},8000);
+</script>
+
 </body>
 </html>
