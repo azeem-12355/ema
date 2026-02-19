@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Entrepreneur Mastery Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* GLOBAL STYLES */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', sans-serif;}
+body{
+    height:100vh; display:flex; justify-content:center; align-items:center;
+    background:linear-gradient(135deg,#0f0c29,#1a1a40,#000);
+    color:white; opacity:0; transform:scale(0.95);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* CARD */
+.container{
+    background:rgba(255,255,255,0.05);
+    padding:40px; border-radius:20px; backdrop-filter:blur(20px);
+    box-shadow:0 0 40px rgba(0,0,0,0.6); width:90%; max-width:400px;
+    text-align:center;
+}
+h2{margin-bottom:25px; background:linear-gradient(90deg,#00f5ff,#9f00ff);
+-webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.input-box{margin-bottom:15px; text-align:left;}
+.input-box input{width:100%; padding:12px; border-radius:8px; border:none; outline:none; font-size:0.9rem;}
+.error{color:#ff4d4d; font-size:0.8rem; margin-bottom:10px;}
+.btn{width:100%; padding:12px; border-radius:50px; border:none; font-weight:600; cursor:pointer; margin-top:10px; transition:0.4s;}
+.primary{background:linear-gradient(90deg,#00f5ff,#9f00ff); color:white; box-shadow:0 0 15px #9f00ff;}
+.primary:hover{transform:scale(1.05);}
+.google{background:white; color:black; margin-top:15px;}
+.google:hover{background:#ddd;}
+.login-link{margin-top:15px; font-size:0.8rem; color:#aaa;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Create Account</h2>
+
+    <div class="input-box">
+        <input type="email" id="email" placeholder="Enter Gmail (example@gmail.com)">
+    </div>
+
+    <div class="input-box">
+        <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <div class="input-box">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <button class="btn primary" id="signupBtn">Continue</button>
+
+    <button class="btn google" id="googleBtn">Continue with Google</button>
+
+    <div class="login-link">Already have an account?</div>
+</div>
+
+<!-- Firebase Modules -->
+<script type="module">
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+// Firebase Config (your project)
+const firebaseConfig = {
+  apiKey: "AIzaSyCgQFMj6e8c1JPe7JToDthsEwK-47OhEok",
+  authDomain: "entrepreneurmastery-1b171.firebaseapp.com",
+  projectId: "entrepreneurmastery-1b171",
+  storageBucket: "entrepreneurmastery-1b171.firebasestorage.app",
+  messagingSenderId: "515340846903",
+  appId: "1:515340846903:web:0f7a9d0dd55e7f737abcb2",
+  measurementId: "G-P7M1HKQ52T"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+/* ================= PAGE FADE-IN ================= */
+window.addEventListener("load", function(){
+    document.body.style.opacity = "1";
+    document.body.style.transform = "scale(1)";
+});
+
+/* ================= EMAIL/PASSWORD SIGNUP ================= */
+document.getElementById("signupBtn").addEventListener("click", ()=>{
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const error = document.getElementById("error");
+    error.textContent = "";
+
+    const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if(!gmailPattern.test(email)){
+        error.textContent = "Only valid Gmail addresses are allowed.";
+        return;
+    }
+    if(password !== confirmPassword){
+        error.textContent = "Passwords not same.";
+        return;
+    }
+    if(password.length < 6){
+        error.textContent = "Password must be at least 6 characters.";
+        return;
+    }
+
+    // Create user with Firebase email/password
+    auth.createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            alert("Account Created Successfully!");
+            window.location.href = "homepage.html";
+        })
+        .catch((err) => {
+            console.error(err);
+            error.textContent = err.message;
+        });
+});
+
+/* ================= GOOGLE LOGIN ================= */
+document.getElementById("googleBtn").addEventListener("click", ()=>{
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            alert("Welcome " + user.displayName + "! Signed in successfully with Google.");
+            window.location.href = "homepage.html";
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Google sign-in failed: " + error.message);
+        });
+});
+
+</script>
+</body>
+</html>
