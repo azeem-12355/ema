@@ -3,198 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrepreneur Academy</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>Founder Control Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --bg1:#050816;
-    --bg2:#0b1120;
-    --blue:#3b82f6;
-    --purple:#8b5cf6;
+--bg1:#0B0F1A;
+--bg2:#05070D;
+--electric:#0F1E40;
+--cyan:#22d3ee;
+--purple:#8b5cf6;
+--text:#EAF2FF;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(135deg,var(--bg1),var(--bg2));
-    color:white;
-    overflow-x:hidden;
-    min-height:100vh;
-    animation:fadeIn 2s ease forwards;
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,var(--bg1),var(--bg2));
+color:var(--text);
+overflow-x:hidden;
+min-height:100vh;
+opacity:0;
+animation:bgFade 0.8s ease forwards;
 }
 
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
+@keyframes bgFade{to{opacity:1}}
 
-/* Cinematic slow zoom */
+/* Cinematic zoom */
 body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:radial-gradient(circle at 30% 40%, rgba(59,130,246,0.15), transparent 50%),
-               radial-gradient(circle at 70% 70%, rgba(139,92,246,0.12), transparent 50%);
-    animation:zoomBg 25s infinite alternate ease-in-out;
-    z-index:-3;
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle at center, rgba(15,30,64,0.2), transparent 60%);
+animation:cinematicZoom 18s ease-in-out infinite alternate;
+z-index:-3;
+}
+@keyframes cinematicZoom{
+from{transform:scale(1)}
+to{transform:scale(1.08)}
 }
 
-@keyframes zoomBg{
-    from{transform:scale(1);}
-    to{transform:scale(1.1);}
-}
-
-/* Floating micro particles */
+/* Particles */
 .particle{
-    position:fixed;
-    width:2px;
-    height:2px;
-    background:rgba(255,255,255,0.15);
-    border-radius:50%;
-    animation:float linear infinite;
-    z-index:-2;
+position:fixed;
+background:white;
+border-radius:50%;
+opacity:.12;
+filter:blur(1px);
+z-index:-2;
+animation:float linear infinite;
 }
-
 @keyframes float{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
+from{transform:translateY(100vh)}
+to{transform:translateY(-10vh)}
 }
 
-/* Neural canvas */
+/* Neural */
 canvas{
-    position:fixed;
-    inset:0;
-    z-index:-1;
+position:fixed;
+inset:0;
+z-index:-1;
+opacity:0;
+animation:neuralFade .8s ease forwards;
+animation-delay:.4s;
 }
+@keyframes neuralFade{to{opacity:1}}
 
 /* Layout */
 .wrapper{
-    width:100%;
-    max-width:1200px;
-    margin:150px auto;
-    position:relative;
+width:100%;
+max-width:1100px;
+margin:160px auto 200px;
+position:relative;
 }
 
-/* Zigzag positioning */
 .session{
-    position:relative;
-    margin:120px 0;
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s ease;
+position:relative;
+margin:180px 0;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+transition:opacity .6s ease, transform .6s ease;
 }
 
 .session.show{
-    opacity:1;
-    transform:translateY(0);
+opacity:1;
+transform:translateY(0);
 }
 
-.left{ text-align:left; }
-.right{ text-align:right; }
-.center{ text-align:center; transform:translateY(-40px); }
+.left{margin-left:0;text-align:left}
+.right{margin-left:auto;text-align:right}
+.center{text-align:center}
 
 /* Orb */
 .orb{
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    margin:0 auto;
-    position:relative;
-    background:radial-gradient(circle at 30% 30%, var(--blue), var(--purple));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:42px;
-    font-weight:800;
-    letter-spacing:2px;
-    box-shadow:0 0 40px rgba(59,130,246,0.6),
-               0 0 80px rgba(139,92,246,0.4);
-    animation:pulse 4s infinite ease-in-out;
-    transition:0.6s ease;
-    cursor:pointer;
+width:130px;
+height:130px;
+border-radius:50%;
+margin:auto;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+font-size:38px;
+letter-spacing:2px;
+background:radial-gradient(circle at center,#1E3A8A,#0B1120);
+box-shadow:0 0 25px rgba(34,211,238,.35);
+animation:pulse 4s ease-in-out infinite;
+transition:all .35s cubic-bezier(.22,1,.36,1);
+cursor:pointer;
 }
 
 @keyframes pulse{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.05);}
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.04)}
 }
 
-/* Rotating ring */
+/* Energy ring */
 .orb::before{
-    content:"";
-    position:absolute;
-    inset:-15px;
-    border-radius:50%;
-    border:2px solid rgba(255,255,255,0.2);
-    animation:rotate 10s linear infinite;
+content:"";
+position:absolute;
+inset:-12px;
+border-radius:50%;
+border:2px solid;
+border-image:linear-gradient(90deg,var(--cyan),var(--purple)) 1;
+animation:rotate 12s linear infinite;
+}
+.session:nth-child(even) .orb::before{
+animation-direction:reverse;
+}
+@keyframes rotate{
+from{transform:rotate(0)}
+to{transform:rotate(360deg)}
 }
 
-@keyframes rotate{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+/* Holographic shimmer */
+.orb span{
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+background-size:200%;
+-webkit-background-clip:text;
+color:var(--text);
+animation:shimmer 3.5s linear infinite;
+}
+@keyframes shimmer{
+from{background-position:-200%}
+to{background-position:200%}
 }
 
 /* Hover */
 .orb:hover{
-    transform:translateY(-10px) scale(1.1);
-    box-shadow:0 0 60px rgba(59,130,246,0.9),
-               0 0 120px rgba(139,92,246,0.7);
+transform:scale(1.08);
+box-shadow:0 0 40px rgba(34,211,238,.6);
+}
+.orb:hover::before{
+animation-duration:6s;
 }
 
 /* Title */
 .title{
-    margin-top:20px;
-    font-weight:500;
-    letter-spacing:1px;
-    opacity:0.8;
+font-size:18px;
+font-weight:500;
+opacity:.85;
+letter-spacing:1px;
+margin-top:20px;
 }
 
-/* Energy Path SVG */
-.path{
-    position:absolute;
-    inset:0;
-    z-index:-1;
+/* Path */
+svg.path{
+position:absolute;
+inset:0;
+z-index:-1;
+opacity:.5;
+filter:blur(6px);
+animation:pathDraw 2.2s cubic-bezier(.4,0,.2,1) forwards;
+animation-delay:.6s;
+stroke-dasharray:2000;
+stroke-dashoffset:2000;
+}
+@keyframes pathDraw{
+to{stroke-dashoffset:0}
 }
 
-/* Bottom Navigation */
+/* Bottom nav */
 .nav{
-    position:fixed;
-    bottom:40px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:60px;
+position:fixed;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:60px;
+opacity:0;
+animation:navFade .6s ease forwards;
+animation-delay:2.2s;
 }
+@keyframes navFade{to{opacity:1}}
 
 .nav svg{
-    width:28px;
-    height:28px;
-    stroke:white;
-    stroke-width:1.5;
-    fill:none;
-    opacity:0.7;
-    transition:0.4s ease;
-    cursor:pointer;
+width:28px;
+height:28px;
+stroke:white;
+stroke-width:1.8;
+fill:none;
+opacity:.7;
+transition:all .25s ease;
+cursor:pointer;
 }
-
 .nav svg:hover{
-    transform:scale(1.2);
-    opacity:1;
-    filter:drop-shadow(0 0 10px var(--blue));
+transform:scale(1.15);
+filter:drop-shadow(0 0 15px var(--cyan));
+opacity:1;
 }
-
 .home{
-    width:34px !important;
-    height:34px !important;
-    opacity:1;
-    filter:drop-shadow(0 0 15px var(--blue));
+width:32px!important;
+height:32px!important;
+animation:homePulse 5s infinite ease-in-out;
+}
+@keyframes homePulse{
+0%,100%{filter:drop-shadow(0 0 5px var(--cyan))}
+50%{filter:drop-shadow(0 0 15px var(--cyan))}
 }
 </style>
 </head>
@@ -206,43 +233,23 @@ canvas{
 
 <svg class="path" viewBox="0 0 1200 2000">
 <path d="M200 200 Q600 400 1000 600 T200 1000 T1000 1400 T600 1800"
-      stroke="url(#grad)" stroke-width="4" fill="none" opacity="0.4"/>
+stroke="url(#g)" stroke-width="2" fill="none"/>
 <defs>
-<linearGradient id="grad">
-<stop offset="0%" stop-color="#3b82f6"/>
-<stop offset="100%" stop-color="#8b5cf6"/>
+<linearGradient id="g">
+<stop offset="0%" stop-color="#22d3ee"/>
+<stop offset="100%" stop-color="#22d3ee"/>
 </linearGradient>
 </defs>
 </svg>
 
-<div class="session left">
-<div class="orb">01</div>
-<div class="title">Foundation of Wealth</div>
-</div>
-
-<div class="session right">
-<div class="orb">02</div>
-<div class="title">Market Influence</div>
-</div>
-
-<div class="session left">
-<div class="orb">03</div>
-<div class="title">Strategic Expansion</div>
-</div>
-
-<div class="session right">
-<div class="orb">04</div>
-<div class="title">Operational Mastery</div>
-</div>
-
-<div class="session center">
-<div class="orb">05</div>
-<div class="title">Legacy Creation</div>
-</div>
+<div class="session left"><div class="orb"><span>01</span></div><div class="title">Foundation</div></div>
+<div class="session right"><div class="orb"><span>02</span></div><div class="title">Market Power</div></div>
+<div class="session left"><div class="orb"><span>03</span></div><div class="title">Strategic Scale</div></div>
+<div class="session right"><div class="orb"><span>04</span></div><div class="title">Operational Command</div></div>
+<div class="session center"><div class="orb"><span>05</span></div><div class="title">Legacy Architecture</div></div>
 
 </div>
 
-<!-- Bottom Nav -->
 <div class="nav">
 <svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/></svg>
 <svg class="home" viewBox="0 0 24 24"><path d="M3 11L12 3l9 8"/><path d="M5 10v10h14V10"/></svg>
@@ -251,347 +258,49 @@ canvas{
 
 <script>
 /* Particles */
-for(let i=0;i<40;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.animationDuration=20+Math.random()*20+"s";
-    document.body.appendChild(p);
+for(let i=0;i<45;i++){
+let p=document.createElement("div");
+p.className="particle";
+p.style.width=(1+Math.random()*2)+"px";
+p.style.height=p.style.width;
+p.style.left=Math.random()*100+"vw";
+p.style.opacity=0.08+Math.random()*0.1;
+p.style.animationDuration=25+Math.random()*15+"s";
+document.body.appendChild(p);
 }
 
-/* Sequential reveal */
+/* Reveal sessions timeline */
 document.querySelectorAll(".session").forEach((el,i)=>{
-    setTimeout(()=>{el.classList.add("show")}, i*500);
+setTimeout(()=>{el.classList.add("show")},1000+i*200);
 });
 
-/* Neural lines */
-const canvas=document.getElementById("neural");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let points=[];
-for(let i=0;i<70;i++){
-    points.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
+/* Neural */
+const c=document.getElementById("neural");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+let pts=[];
+for(let i=0;i<60;i++){
+pts.push({x:Math.random()*c.width,y:Math.random()*c.height});
 }
-
 function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle="rgba(59,130,246,0.08)";
-    for(let i=0;i<points.length;i++){
-        for(let j=i+1;j<points.length;j++){
-            let dx=points[i].x-points[j].x;
-            let dy=points[i].y-points[j].y;
-            let dist=Math.sqrt(dx*dx+dy*dy);
-            if(dist<140){
-                ctx.beginPath();
-                ctx.moveTo(points[i].x,points[i].y);
-                ctx.lineTo(points[j].x,points[j].y);
-                ctx.stroke();
-            }
-        }
-    }
-    requestAnimationFrame(animate);
+ctx.clearRect(0,0,c.width,c.height);
+ctx.strokeStyle="rgba(255,255,255,0.07)";
+ctx.lineWidth=0.5;
+for(let i=0;i<pts.length;i++){
+for(let j=i+1;j<pts.length;j++){
+let dx=pts[i].x-pts[j].x;
+let dy=pts[i].y-pts[j].y;
+let d=Math.sqrt(dx*dx+dy*dy);
+if(d<130){
+ctx.beginPath();
+ctx.moveTo(pts[i].x,pts[i].y);
+ctx.lineTo(pts[j].x,pts[j].y);
+ctx.stroke();
 }
-animate();
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrepreneur Academy</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-<style>
-:root{
-    --bg1:#050816;
-    --bg2:#0b1120;
-    --blue:#3b82f6;
-    --purple:#8b5cf6;
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
 }
-
-body{
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(135deg,var(--bg1),var(--bg2));
-    color:white;
-    overflow-x:hidden;
-    min-height:100vh;
-    animation:fadeIn 2s ease forwards;
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
-
-/* Cinematic slow zoom */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:radial-gradient(circle at 30% 40%, rgba(59,130,246,0.15), transparent 50%),
-               radial-gradient(circle at 70% 70%, rgba(139,92,246,0.12), transparent 50%);
-    animation:zoomBg 25s infinite alternate ease-in-out;
-    z-index:-3;
-}
-
-@keyframes zoomBg{
-    from{transform:scale(1);}
-    to{transform:scale(1.1);}
-}
-
-/* Floating micro particles */
-.particle{
-    position:fixed;
-    width:2px;
-    height:2px;
-    background:rgba(255,255,255,0.15);
-    border-radius:50%;
-    animation:float linear infinite;
-    z-index:-2;
-}
-
-@keyframes float{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
-}
-
-/* Neural canvas */
-canvas{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-}
-
-/* Layout */
-.wrapper{
-    width:100%;
-    max-width:1200px;
-    margin:150px auto;
-    position:relative;
-}
-
-/* Zigzag positioning */
-.session{
-    position:relative;
-    margin:120px 0;
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s ease;
-}
-
-.session.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-.left{ text-align:left; }
-.right{ text-align:right; }
-.center{ text-align:center; transform:translateY(-40px); }
-
-/* Orb */
-.orb{
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    margin:0 auto;
-    position:relative;
-    background:radial-gradient(circle at 30% 30%, var(--blue), var(--purple));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:42px;
-    font-weight:800;
-    letter-spacing:2px;
-    box-shadow:0 0 40px rgba(59,130,246,0.6),
-               0 0 80px rgba(139,92,246,0.4);
-    animation:pulse 4s infinite ease-in-out;
-    transition:0.6s ease;
-    cursor:pointer;
-}
-
-@keyframes pulse{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-}
-
-/* Rotating ring */
-.orb::before{
-    content:"";
-    position:absolute;
-    inset:-15px;
-    border-radius:50%;
-    border:2px solid rgba(255,255,255,0.2);
-    animation:rotate 10s linear infinite;
-}
-
-@keyframes rotate{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
-/* Hover */
-.orb:hover{
-    transform:translateY(-10px) scale(1.1);
-    box-shadow:0 0 60px rgba(59,130,246,0.9),
-               0 0 120px rgba(139,92,246,0.7);
-}
-
-/* Title */
-.title{
-    margin-top:20px;
-    font-weight:500;
-    letter-spacing:1px;
-    opacity:0.8;
-}
-
-/* Energy Path SVG */
-.path{
-    position:absolute;
-    inset:0;
-    z-index:-1;
-}
-
-/* Bottom Navigation */
-.nav{
-    position:fixed;
-    bottom:40px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:60px;
-}
-
-.nav svg{
-    width:28px;
-    height:28px;
-    stroke:white;
-    stroke-width:1.5;
-    fill:none;
-    opacity:0.7;
-    transition:0.4s ease;
-    cursor:pointer;
-}
-
-.nav svg:hover{
-    transform:scale(1.2);
-    opacity:1;
-    filter:drop-shadow(0 0 10px var(--blue));
-}
-
-.home{
-    width:34px !important;
-    height:34px !important;
-    opacity:1;
-    filter:drop-shadow(0 0 15px var(--blue));
-}
-</style>
-</head>
-<body>
-
-<canvas id="neural"></canvas>
-
-<div class="wrapper">
-
-<svg class="path" viewBox="0 0 1200 2000">
-<path d="M200 200 Q600 400 1000 600 T200 1000 T1000 1400 T600 1800"
-      stroke="url(#grad)" stroke-width="4" fill="none" opacity="0.4"/>
-<defs>
-<linearGradient id="grad">
-<stop offset="0%" stop-color="#3b82f6"/>
-<stop offset="100%" stop-color="#8b5cf6"/>
-</linearGradient>
-</defs>
-</svg>
-
-<div class="session left">
-<div class="orb">01</div>
-<div class="title">Foundation of Wealth</div>
-</div>
-
-<div class="session right">
-<div class="orb">02</div>
-<div class="title">Market Influence</div>
-</div>
-
-<div class="session left">
-<div class="orb">03</div>
-<div class="title">Strategic Expansion</div>
-</div>
-
-<div class="session right">
-<div class="orb">04</div>
-<div class="title">Operational Mastery</div>
-</div>
-
-<div class="session center">
-<div class="orb">05</div>
-<div class="title">Legacy Creation</div>
-</div>
-
-</div>
-
-<!-- Bottom Nav -->
-<div class="nav">
-<svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/></svg>
-<svg class="home" viewBox="0 0 24 24"><path d="M3 11L12 3l9 8"/><path d="M5 10v10h14V10"/></svg>
-<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c2-4 14-4 16 0"/></svg>
-</div>
-
-<script>
-/* Particles */
-for(let i=0;i<40;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.animationDuration=20+Math.random()*20+"s";
-    document.body.appendChild(p);
-}
-
-/* Sequential reveal */
-document.querySelectorAll(".session").forEach((el,i)=>{
-    setTimeout(()=>{el.classList.add("show")}, i*500);
-});
-
-/* Neural lines */
-const canvas=document.getElementById("neural");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let points=[];
-for(let i=0;i<70;i++){
-    points.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
-}
-
-function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle="rgba(59,130,246,0.08)";
-    for(let i=0;i<points.length;i++){
-        for(let j=i+1;j<points.length;j++){
-            let dx=points[i].x-points[j].x;
-            let dy=points[i].y-points[j].y;
-            let dist=Math.sqrt(dx*dx+dy*dy);
-            if(dist<140){
-                ctx.beginPath();
-                ctx.moveTo(points[i].x,points[i].y);
-                ctx.lineTo(points[j].x,points[j].y);
-                ctx.stroke();
-            }
-        }
-    }
-    requestAnimationFrame(animate);
+requestAnimationFrame(animate);
 }
 animate();
 </script>
