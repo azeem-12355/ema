@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome - EMA</title>
+<title>Sign Up - EMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
@@ -15,45 +16,46 @@ justify-content:center;
 align-items:center;
 background:linear-gradient(135deg,#0f0c29,#1a1a40,#000);
 color:white;
-text-align:center;
-overflow:hidden;
-animation:fadeBody 1s ease forwards;
-}
-
-@keyframes fadeBody{
-from{opacity:0;}
-to{opacity:1;}
 }
 
 .container{
-max-width:600px;
-padding:20px;
+background:rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(20px);
+box-shadow:0 0 40px rgba(0,0,0,0.6);
+width:90%;
+max-width:400px;
+text-align:center;
 }
 
-h1{
-font-size:2.8rem;
-margin-bottom:15px;
+h2{
+margin-bottom:20px;
 background:linear-gradient(90deg,#00f5ff,#9f00ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-animation:fadeUp 1.2s ease forwards;
 }
 
-p{
-color:#aaa;
-margin-bottom:30px;
-animation:fadeUp 1.8s ease forwards;
+input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:none;
+margin-bottom:15px;
+outline:none;
 }
 
 button{
-padding:15px 40px;
+width:100%;
+padding:12px;
 border-radius:50px;
 border:none;
 font-weight:600;
 cursor:pointer;
+margin-top:10px;
+transition:0.4s;
 background:linear-gradient(90deg,#00f5ff,#9f00ff);
 color:white;
-transition:0.4s;
 }
 
 button:hover{
@@ -61,33 +63,127 @@ transform:scale(1.05);
 box-shadow:0 0 20px #9f00ff;
 }
 
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+.error{
+color:#ff4d4d;
+font-size:0.85rem;
+margin-bottom:10px;
+}
+
+.toggle{
+margin-top:15px;
+font-size:0.85rem;
+color:#aaa;
+cursor:pointer;
+}
+
+.toggle span{
+color:#00f5ff;
 }
 </style>
 </head>
 <body>
 
-<script>
-if(!localStorage.getItem("emaUser")){
-window.location.href="signup.html";
-}
-</script>
-
 <div class="container">
-<h1 id="welcomeText">Welcome!</h1>
-<p>Your journey to building a powerful entrepreneur mindset begins now.</p>
-<button onclick="goHome()">Continue to Dashboard</button>
+<h2 id="formTitle">Create Account</h2>
+
+<input type="text" id="name" placeholder="Enter Your Name">
+<input type="email" id="email" placeholder="Enter Gmail (example@gmail.com)">
+<input type="password" id="password" placeholder="Password">
+<input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+<div class="error" id="error"></div>
+
+<button id="mainBtn">Continue</button>
+
+<div class="toggle" id="toggleText">
+Already have an account? <span>Login</span>
+</div>
 </div>
 
-<script>
-const name = localStorage.getItem("emaUser");
-document.getElementById("welcomeText").innerText = "Welcome, " + name + "!";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { 
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-function goHome(){
-window.location.assign("./homepage.html");
+const firebaseConfig = {
+  apiKey: "YOUR_REAL_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let isLogin = false;
+
+const toggle = document.getElementById("toggleText");
+const confirmPassword = document.getElementById("confirmPassword");
+const nameInput = document.getElementById("name");
+const mainBtn = document.getElementById("mainBtn");
+const title = document.getElementById("formTitle");
+const error = document.getElementById("error");
+
+toggle.addEventListener("click", ()=>{
+error.textContent="";
+if(!isLogin){
+title.textContent="Login";
+confirmPassword.style.display="none";
+nameInput.style.display="none";
+mainBtn.textContent="Login";
+toggle.innerHTML='Don’t have an account? <span>Sign Up</span>';
+isLogin=true;
+}else{
+title.textContent="Create Account";
+confirmPassword.style.display="block";
+nameInput.style.display="block";
+mainBtn.textContent="Continue";
+toggle.innerHTML='Already have an account? <span>Login</span>';
+isLogin=false;
 }
+});
+
+mainBtn.addEventListener("click", async ()=>{
+const name=nameInput.value.trim();
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+const confirm=document.getElementById("confirmPassword").value;
+
+error.textContent="";
+
+const gmailPattern=/^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+if(!gmailPattern.test(email)){
+error.textContent="Only Gmail addresses allowed.";
+return;
+}
+
+try{
+if(!isLogin){
+if(name===""){
+error.textContent="Please enter your name.";
+return;
+}
+if(password!==confirm){
+error.textContent="Passwords do not match.";
+return;
+}
+await createUserWithEmailAndPassword(auth,email,password);
+localStorage.setItem("emaName", name);
+}else{
+await signInWithEmailAndPassword(auth,email,password);
+}
+
+window.location.assign("./welcome.html");
+
+}catch(err){
+error.textContent=err.message;
+}
+});
 </script>
 
 </body>
