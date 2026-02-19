@@ -1,308 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Founder Control Center</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Entrepreneur Academy</title>
 
 <style>
 :root{
---bg1:#0B0F1A;
---bg2:#05070D;
---electric:#0F1E40;
---cyan:#22d3ee;
---purple:#8b5cf6;
---text:#EAF2FF;
+  --bg1:#0B0F1A;
+  --bg2:#05070D;
+  --surface:#101624;
+  --border:rgba(255,255,255,0.05);
+  --text:rgba(255,255,255,0.85);
+  --muted:rgba(255,255,255,0.6);
+  --accent:#2D6BFF;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
 body{
-font-family:'Inter',sans-serif;
-background:linear-gradient(135deg,var(--bg1),var(--bg2));
-color:var(--text);
-overflow-x:hidden;
-min-height:100vh;
-opacity:0;
-animation:bgFade 0.8s ease forwards;
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-@keyframes bgFade{to{opacity:1}}
-
-/* Cinematic zoom */
+/* Cinematic Slow Zoom */
 body::before{
-content:"";
-position:fixed;
-inset:0;
-background:radial-gradient(circle at center, rgba(15,30,64,0.2), transparent 60%);
-animation:cinematicZoom 18s ease-in-out infinite alternate;
-z-index:-3;
-}
-@keyframes cinematicZoom{
-from{transform:scale(1)}
-to{transform:scale(1.08)}
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  z-index:-2;
+  animation:bgZoom 20s ease-in-out infinite alternate;
 }
 
-/* Particles */
-.particle{
-position:fixed;
-background:white;
-border-radius:50%;
-opacity:.12;
-filter:blur(1px);
-z-index:-2;
-animation:float linear infinite;
+@keyframes bgZoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.06);}
 }
+
+/* Floating Particles */
+.particles span{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:0.08;
+  animation:float linear infinite;
+}
+
 @keyframes float{
-from{transform:translateY(100vh)}
-to{transform:translateY(-10vh)}
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
 }
-
-/* Neural */
-canvas{
-position:fixed;
-inset:0;
-z-index:-1;
-opacity:0;
-animation:neuralFade .8s ease forwards;
-animation-delay:.4s;
-}
-@keyframes neuralFade{to{opacity:1}}
 
 /* Layout */
 .wrapper{
-width:100%;
-max-width:1100px;
-margin:160px auto 200px;
-position:relative;
+  position:relative;
+  width:100%;
+  max-width:900px;
+  padding-top:40px;
 }
 
+/* Session Boxes */
 .session{
-position:relative;
-margin:180px 0;
-text-align:center;
-opacity:0;
-transform:translateY(40px);
-transition:opacity .6s ease, transform .6s ease;
+  width:300px;
+  height:130px;
+  background:var(--surface);
+  border-radius:18px;
+  padding:24px;
+  border:1px solid var(--border);
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:all .3s cubic-bezier(0.22,1,0.36,1);
+  opacity:0;
+  transform:translateY(20px);
 }
 
-.session.show{
-opacity:1;
-transform:translateY(0);
+.session-number{
+  font-size:28px;
+  font-weight:700;
+  opacity:0.7;
 }
 
-.left{margin-left:0;text-align:left}
-.right{margin-left:auto;text-align:right}
-.center{text-align:center}
+.session-info{
+  text-align:right;
+}
 
-/* Orb */
-.orb{
-width:130px;
-height:130px;
-border-radius:50%;
-margin:auto;
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
-font-size:38px;
-letter-spacing:2px;
-background:radial-gradient(circle at center,#1E3A8A,#0B1120);
-box-shadow:0 0 25px rgba(34,211,238,.35);
-animation:pulse 4s ease-in-out infinite;
-transition:all .35s cubic-bezier(.22,1,.36,1);
-cursor:pointer;
+.session-title{
+  font-size:18px;
+  font-weight:600;
+}
+
+.session-sub{
+  font-size:13px;
+  opacity:0.6;
+  margin-top:6px;
+}
+
+/* Zigzag positioning */
+.s1{margin-left:0;}
+.s2{margin-left:420px;}
+.s3{margin-left:0;}
+.s4{margin-left:420px;}
+.s5{margin-left:210px;}
+
+.session + .session{
+  margin-top:140px;
+}
+
+/* Active */
+.active{
+  cursor:pointer;
+}
+
+.active:hover{
+  transform:translateY(-8px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.8);
+  border:1px solid rgba(45,107,255,0.4);
+}
+
+.active::after{
+  content:"";
+  position:absolute;
+  bottom:-6px;
+  left:20%;
+  width:60%;
+  height:4px;
+  background:var(--accent);
+  filter:blur(10px);
+  opacity:.7;
+}
+
+/* Locked */
+.locked{
+  opacity:.7;
+  cursor:not-allowed;
+  position:relative;
+}
+
+.locked::before{
+  content:"🔒";
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:14px;
+  opacity:.6;
+}
+
+/* Notification */
+.notify{
+  position:fixed;
+  bottom:-80px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#0F1422;
+  padding:14px 24px;
+  border-radius:12px;
+  font-size:14px;
+  opacity:0;
+  transition:all .4s ease;
+}
+
+.notify.show{
+  bottom:40px;
+  opacity:1;
+}
+
+/* Bottom Nav */
+.bottom-nav{
+  position:fixed;
+  bottom:45px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:70px;
+  opacity:0;
+  transition:opacity .6s ease;
+}
+
+.icon{
+  width:28px;
+  height:28px;
+  stroke:rgba(255,255,255,0.6);
+  stroke-width:1.8;
+  fill:none;
+  transition:all .25s ease;
+  cursor:pointer;
+}
+
+.icon.home{
+  width:32px;
+  height:32px;
+  fill:rgba(255,255,255,0.8);
+  stroke:none;
+  animation:pulse 5s infinite;
 }
 
 @keyframes pulse{
-0%,100%{transform:scale(1)}
-50%{transform:scale(1.04)}
+  0%{filter:drop-shadow(0 0 0px rgba(255,255,255,0.2));}
+  50%{filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));}
+  100%{filter:drop-shadow(0 0 0px rgba(255,255,255,0.2));}
 }
 
-/* Energy ring */
-.orb::before{
-content:"";
-position:absolute;
-inset:-12px;
-border-radius:50%;
-border:2px solid;
-border-image:linear-gradient(90deg,var(--cyan),var(--purple)) 1;
-animation:rotate 12s linear infinite;
-}
-.session:nth-child(even) .orb::before{
-animation-direction:reverse;
-}
-@keyframes rotate{
-from{transform:rotate(0)}
-to{transform:rotate(360deg)}
+.icon:hover{
+  transform:scale(1.12);
+  filter:drop-shadow(0 0 10px rgba(255,255,255,0.4));
 }
 
-/* Holographic shimmer */
-.orb span{
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
-background-size:200%;
--webkit-background-clip:text;
-color:var(--text);
-animation:shimmer 3.5s linear infinite;
-}
-@keyframes shimmer{
-from{background-position:-200%}
-to{background-position:200%}
+/* Fade In */
+.show{
+  opacity:1;
+  transform:translateY(0);
 }
 
-/* Hover */
-.orb:hover{
-transform:scale(1.08);
-box-shadow:0 0 40px rgba(34,211,238,.6);
-}
-.orb:hover::before{
-animation-duration:6s;
-}
-
-/* Title */
-.title{
-font-size:18px;
-font-weight:500;
-opacity:.85;
-letter-spacing:1px;
-margin-top:20px;
-}
-
-/* Path */
-svg.path{
-position:absolute;
-inset:0;
-z-index:-1;
-opacity:.5;
-filter:blur(6px);
-animation:pathDraw 2.2s cubic-bezier(.4,0,.2,1) forwards;
-animation-delay:.6s;
-stroke-dasharray:2000;
-stroke-dashoffset:2000;
-}
-@keyframes pathDraw{
-to{stroke-dashoffset:0}
-}
-
-/* Bottom nav */
-.nav{
-position:fixed;
-bottom:40px;
-left:50%;
-transform:translateX(-50%);
-display:flex;
-gap:60px;
-opacity:0;
-animation:navFade .6s ease forwards;
-animation-delay:2.2s;
-}
-@keyframes navFade{to{opacity:1}}
-
-.nav svg{
-width:28px;
-height:28px;
-stroke:white;
-stroke-width:1.8;
-fill:none;
-opacity:.7;
-transition:all .25s ease;
-cursor:pointer;
-}
-.nav svg:hover{
-transform:scale(1.15);
-filter:drop-shadow(0 0 15px var(--cyan));
-opacity:1;
-}
-.home{
-width:32px!important;
-height:32px!important;
-animation:homePulse 5s infinite ease-in-out;
-}
-@keyframes homePulse{
-0%,100%{filter:drop-shadow(0 0 5px var(--cyan))}
-50%{filter:drop-shadow(0 0 15px var(--cyan))}
+body.blur{
+  filter:blur(4px);
+  transition:.4s;
 }
 </style>
 </head>
 <body>
 
-<canvas id="neural"></canvas>
+<div class="particles"></div>
 
 <div class="wrapper">
+  <div class="session s1 active">
+    <div class="session-number">01</div>
+    <div class="session-info">
+      <div class="session-title">Foundation</div>
+      <div class="session-sub">Clarity & Positioning</div>
+    </div>
+  </div>
 
-<svg class="path" viewBox="0 0 1200 2000">
-<path d="M200 200 Q600 400 1000 600 T200 1000 T1000 1400 T600 1800"
-stroke="url(#g)" stroke-width="2" fill="none"/>
-<defs>
-<linearGradient id="g">
-<stop offset="0%" stop-color="#22d3ee"/>
-<stop offset="100%" stop-color="#22d3ee"/>
-</linearGradient>
-</defs>
-</svg>
+  <div class="session s2 locked">
+    <div class="session-number">02</div>
+    <div class="session-info">
+      <div class="session-title">Offer Architecture</div>
+      <div class="session-sub">Designing Value</div>
+    </div>
+  </div>
 
-<div class="session left"><div class="orb"><span>01</span></div><div class="title">Foundation</div></div>
-<div class="session right"><div class="orb"><span>02</span></div><div class="title">Market Power</div></div>
-<div class="session left"><div class="orb"><span>03</span></div><div class="title">Strategic Scale</div></div>
-<div class="session right"><div class="orb"><span>04</span></div><div class="title">Operational Command</div></div>
-<div class="session center"><div class="orb"><span>05</span></div><div class="title">Legacy Architecture</div></div>
+  <div class="session s3 locked">
+    <div class="session-number">03</div>
+    <div class="session-info">
+      <div class="session-title">Acquisition</div>
+      <div class="session-sub">Client Systems</div>
+    </div>
+  </div>
 
+  <div class="session s4 locked">
+    <div class="session-number">04</div>
+    <div class="session-info">
+      <div class="session-title">Scaling</div>
+      <div class="session-sub">Automation & Leverage</div>
+    </div>
+  </div>
+
+  <div class="session s5 locked">
+    <div class="session-number">05</div>
+    <div class="session-info">
+      <div class="session-title">Legacy</div>
+      <div class="session-sub">Expansion Strategy</div>
+    </div>
+  </div>
 </div>
 
-<div class="nav">
-<svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/></svg>
-<svg class="home" viewBox="0 0 24 24"><path d="M3 11L12 3l9 8"/><path d="M5 10v10h14V10"/></svg>
-<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c2-4 14-4 16 0"/></svg>
+<div class="notify" id="notify">
+  Complete previous section.
+</div>
+
+<div class="bottom-nav" id="bottomNav">
+  <!-- Progress -->
+  <svg class="icon" viewBox="0 0 24 24">
+    <polyline points="3 17 9 11 13 15 21 7"/>
+  </svg>
+
+  <!-- Home -->
+  <svg class="icon home" viewBox="0 0 24 24">
+    <path d="M3 10L12 3l9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/>
+  </svg>
+
+  <!-- Profile -->
+  <svg class="icon" viewBox="0 0 24 24">
+    <circle cx="12" cy="8" r="4"/>
+    <path d="M4 21c2-4 6-6 8-6s6 2 8 6"/>
+  </svg>
 </div>
 
 <script>
 /* Particles */
-for(let i=0;i<45;i++){
-let p=document.createElement("div");
-p.className="particle";
-p.style.width=(1+Math.random()*2)+"px";
-p.style.height=p.style.width;
-p.style.left=Math.random()*100+"vw";
-p.style.opacity=0.08+Math.random()*0.1;
-p.style.animationDuration=25+Math.random()*15+"s";
-document.body.appendChild(p);
+const particles = document.querySelector(".particles");
+for(let i=0;i<40;i++){
+  const p = document.createElement("span");
+  p.style.left = Math.random()*100+"%";
+  p.style.animationDuration = (25+Math.random()*15)+"s";
+  p.style.opacity = 0.05+Math.random()*0.05;
+  particles.appendChild(p);
 }
 
-/* Reveal sessions timeline */
-document.querySelectorAll(".session").forEach((el,i)=>{
-setTimeout(()=>{el.classList.add("show")},1000+i*200);
+/* Page Load Animation */
+const sessions = document.querySelectorAll(".session");
+sessions.forEach((el,i)=>{
+  setTimeout(()=>el.classList.add("show"),500 + i*300);
 });
 
-/* Neural */
-const c=document.getElementById("neural");
-const ctx=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
-let pts=[];
-for(let i=0;i<60;i++){
-pts.push({x:Math.random()*c.width,y:Math.random()*c.height});
-}
-function animate(){
-ctx.clearRect(0,0,c.width,c.height);
-ctx.strokeStyle="rgba(255,255,255,0.07)";
-ctx.lineWidth=0.5;
-for(let i=0;i<pts.length;i++){
-for(let j=i+1;j<pts.length;j++){
-let dx=pts[i].x-pts[j].x;
-let dy=pts[i].y-pts[j].y;
-let d=Math.sqrt(dx*dx+dy*dy);
-if(d<130){
-ctx.beginPath();
-ctx.moveTo(pts[i].x,pts[i].y);
-ctx.lineTo(pts[j].x,pts[j].y);
-ctx.stroke();
-}
-}
-}
-requestAnimationFrame(animate);
-}
-animate();
+setTimeout(()=>{
+  document.getElementById("bottomNav").style.opacity=1;
+},2000);
+
+/* Locked Click */
+document.querySelectorAll(".locked").forEach(el=>{
+  el.addEventListener("click",()=>{
+    const n = document.getElementById("notify");
+    n.classList.add("show");
+    setTimeout(()=>n.classList.remove("show"),2500);
+  });
+});
+
+/* Active Click */
+document.querySelector(".active").addEventListener("click",()=>{
+  document.body.classList.add("blur");
+  setTimeout(()=>{
+    document.body.style.opacity="0";
+  },300);
+});
 </script>
 
 </body>
