@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up - EMA</title>
+<title>Welcome - EMA</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
@@ -11,179 +11,76 @@
 
 body{
 height:100vh;
+background:linear-gradient(135deg,#000000,#1a1a40,#0f0c29);
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#0f0c29,#1a1a40,#000);
 color:white;
+overflow:hidden;
 }
 
-.container{
+.card{
 background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-backdrop-filter:blur(20px);
-box-shadow:0 0 40px rgba(0,0,0,0.6);
-width:90%;
-max-width:400px;
+padding:50px;
+border-radius:25px;
+backdrop-filter:blur(25px);
+box-shadow:0 0 60px rgba(0,0,0,0.7);
 text-align:center;
+width:90%;
+max-width:600px;
+animation:fade 1s ease;
 }
 
-h2{
+@keyframes fade{
+from{opacity:0;transform:translateY(40px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+h1{
+font-size:2.5rem;
 margin-bottom:20px;
 background:linear-gradient(90deg,#00f5ff,#9f00ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-input{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:none;
-margin-bottom:15px;
-outline:none;
+p{
+color:#ccc;
+margin-bottom:30px;
 }
 
 button{
-width:100%;
-padding:12px;
-border-radius:50px;
+padding:15px 40px;
 border:none;
+border-radius:50px;
 font-weight:600;
 cursor:pointer;
-margin-top:10px;
-transition:0.4s;
 background:linear-gradient(90deg,#00f5ff,#9f00ff);
 color:white;
+transition:0.4s;
 }
 
 button:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #9f00ff;
-}
-
-.error{
-color:#ff4d4d;
-font-size:0.85rem;
-margin-bottom:10px;
-}
-
-.toggle{
-margin-top:15px;
-font-size:0.85rem;
-color:#aaa;
-cursor:pointer;
-}
-
-.toggle span{
-color:#00f5ff;
+transform:scale(1.1);
+box-shadow:0 0 30px #9f00ff;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-<h2 id="formTitle">Create Account</h2>
-
-<input type="text" id="name" placeholder="Enter Your Name">
-<input type="email" id="email" placeholder="Enter Gmail (example@gmail.com)">
-<input type="password" id="password" placeholder="Password">
-<input type="password" id="confirmPassword" placeholder="Confirm Password">
-
-<div class="error" id="error"></div>
-
-<button id="mainBtn">Continue</button>
-
-<div class="toggle" id="toggleText">
-Already have an account? <span>Login</span>
-</div>
+<div class="card">
+<h1 id="welcomeText"></h1>
+<p>Your Entrepreneur Journey Starts Now 🚀</p>
+<button onclick="enterAcademy()">Enter Academy</button>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { 
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+<script>
+const name = localStorage.getItem("emaName") || "Future Billionaire";
+document.getElementById("welcomeText").innerText = "Welcome, " + name + "!";
 
-const firebaseConfig = {
-  apiKey: "YOUR_REAL_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-let isLogin = false;
-
-const toggle = document.getElementById("toggleText");
-const confirmPassword = document.getElementById("confirmPassword");
-const nameInput = document.getElementById("name");
-const mainBtn = document.getElementById("mainBtn");
-const title = document.getElementById("formTitle");
-const error = document.getElementById("error");
-
-toggle.addEventListener("click", ()=>{
-error.textContent="";
-if(!isLogin){
-title.textContent="Login";
-confirmPassword.style.display="none";
-nameInput.style.display="none";
-mainBtn.textContent="Login";
-toggle.innerHTML='Don’t have an account? <span>Sign Up</span>';
-isLogin=true;
-}else{
-title.textContent="Create Account";
-confirmPassword.style.display="block";
-nameInput.style.display="block";
-mainBtn.textContent="Continue";
-toggle.innerHTML='Already have an account? <span>Login</span>';
-isLogin=false;
+function enterAcademy(){
+window.location.href="homepage.html";
 }
-});
-
-mainBtn.addEventListener("click", async ()=>{
-const name=nameInput.value.trim();
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
-const confirm=document.getElementById("confirmPassword").value;
-
-error.textContent="";
-
-const gmailPattern=/^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-if(!gmailPattern.test(email)){
-error.textContent="Only Gmail addresses allowed.";
-return;
-}
-
-try{
-if(!isLogin){
-if(name===""){
-error.textContent="Please enter your name.";
-return;
-}
-if(password!==confirm){
-error.textContent="Passwords do not match.";
-return;
-}
-await createUserWithEmailAndPassword(auth,email,password);
-localStorage.setItem("emaName", name);
-}else{
-await signInWithEmailAndPassword(auth,email,password);
-}
-
-window.location.assign("./welcome.html");
-
-}catch(err){
-error.textContent=err.message;
-}
-});
 </script>
 
 </body>
