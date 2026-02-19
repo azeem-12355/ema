@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrepreneur Mastery Academy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= GLOBAL ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#0f0c29;
+    overflow:hidden;
+    color:white;
+    transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* ================= PARTICLE CANVAS ================= */
+#particles{
+    position:absolute;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+/* ================= MAIN CONTAINER ================= */
+.container{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    animation:fadeIn 2s ease forwards;
+    opacity:0;
+}
+
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+
+h1{
+    font-size:3rem;
+    font-weight:800;
+    background: linear-gradient(90deg, #00f5ff, #9f00ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:15px;
+}
+
+.tagline{
+    font-size:1.2rem;
+    margin-bottom:20px;
+    color:#ccc;
+}
+
+.description{
+    max-width:600px;
+    color:#aaa;
+    margin-bottom:40px;
+    line-height:1.6;
+}
+
+/* ================= BUTTON ================= */
+.btn{
+    padding:16px 45px;
+    border-radius:50px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    font-size:1.1rem;
+    background:linear-gradient(90deg,#00f5ff,#9f00ff);
+    color:white;
+    box-shadow:0 0 25px #9f00ff;
+    transition:0.4s;
+}
+
+.btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 50px #9f00ff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+    h1{font-size:2rem;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PARTICLE BACKGROUND -->
+<canvas id="particles"></canvas>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+    <h1>Entrepreneur Mastery Academy</h1>
+    <div class="tagline">Where Billion-Dollar Minds Are Built</div>
+    <div class="description">
+        Unlock elite business thinking. Master strategy, innovation,
+        leadership, and execution. Begin your transformation today.
+    </div>
+
+    <button class="btn" onclick="startJourney()">Start Your Journey</button>
+</div>
+
+<script>
+
+/* ================= PARTICLE ANIMATION ================= */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particlesArray = [];
+
+class Particle{
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.size = Math.random()*2+1;
+        this.speedX = Math.random()*1-0.5;
+        this.speedY = Math.random()*1-0.5;
+    }
+    update(){
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if(this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if(this.y > canvas.height || this.y < 0) this.speedY *= -1;
+    }
+    draw(){
+        ctx.fillStyle="rgba(159,0,255,0.8)";
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fill();
+    }
+}
+
+function init(){
+    particlesArray=[];
+    for(let i=0;i<120;i++){
+        particlesArray.push(new Particle());
+    }
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particlesArray.forEach(p=>{
+        p.update();
+        p.draw();
+    });
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
+
+window.addEventListener("resize",()=>{
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    init();
+});
+
+/* ================= START JOURNEY ANIMATION ================= */
+function startJourney(){
+    document.body.style.opacity = "0";
+    document.body.style.transform = "scale(1.05)";
+
+    setTimeout(function(){
+        window.location.href = "signup.html";
+    }, 800);
+}
+
+</script>
+
+</body>
+</html>
