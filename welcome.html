@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome - EMA</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f0c29,#1a1a40,#000);
+color:white;
+text-align:center;
+overflow:hidden;
+animation:fadeBody 1s ease forwards;
+}
+
+@keyframes fadeBody{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.container{
+max-width:600px;
+padding:20px;
+}
+
+h1{
+font-size:2.8rem;
+margin-bottom:15px;
+background:linear-gradient(90deg,#00f5ff,#9f00ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:fadeUp 1.2s ease forwards;
+}
+
+p{
+color:#aaa;
+margin-bottom:30px;
+animation:fadeUp 1.8s ease forwards;
+}
+
+button{
+padding:15px 40px;
+border-radius:50px;
+border:none;
+font-weight:600;
+cursor:pointer;
+background:linear-gradient(90deg,#00f5ff,#9f00ff);
+color:white;
+transition:0.4s;
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #9f00ff;
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<script>
+if(!localStorage.getItem("emaUser")){
+window.location.href="signup.html";
+}
+</script>
+
+<div class="container">
+<h1 id="welcomeText">Welcome!</h1>
+<p>Your journey to building a powerful entrepreneur mindset begins now.</p>
+<button onclick="goHome()">Continue to Dashboard</button>
+</div>
+
+<script>
+const name = localStorage.getItem("emaUser");
+document.getElementById("welcomeText").innerText = "Welcome, " + name + "!";
+
+function goHome(){
+window.location.assign("./homepage.html");
+}
+</script>
+
+</body>
+</html>
