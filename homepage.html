@@ -1,71 +1,248 @@
-Create a futuristic, premium homepage (dashboard) in pure HTML, CSS, and JavaScript (no frameworks).
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrepreneur Mastery Academy</title>
 
-Theme:
-- Dark futuristic background (deep gradient or subtle neural grid)
-- Soft glow effects
-- Smooth animations
-- Premium, clean startup aesthetic
-- No AI hype, focused on entrepreneurship
+<style>
 
-Layout Requirements:
+/* ===============================
+   GLOBAL STYLES
+=================================*/
 
-1. Main Content:
-- Display FIVE large circular bubbles in the center of the screen.
-- Each bubble represents a session:
-  1. Foundation
-  2. Strategy
-  3. Execution
-  4. Scaling
-  5. Leadership
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-- Bubbles should:
-  - Have soft neon glow
-  - Slight floating animation
-  - Smooth hover effect (scale + glow)
-  - Be arranged in an elegant layout (zigzag or curved path preferred)
+body{
+  height:100vh;
+  background:
+  radial-gradient(circle at 20% 30%, rgba(0,255,255,0.08), transparent 40%),
+  radial-gradient(circle at 80% 70%, rgba(159,0,255,0.08), transparent 40%),
+  linear-gradient(135deg,#050510,#0a0f25,#050510);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  animation:fadeIn 1.2s ease;
+}
 
-2. Bottom Navigation:
-- Fixed bottom navigation bar (minimal, glassmorphism style).
-- Three icons only:
+/* Fade in animation */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
 
-  - Center: Home icon (active state highlighted)
-  - Left of Home: Progression icon
-  - Right of Home: Profile icon
+/* ===============================
+   MAIN CONTAINER
+=================================*/
 
-- Icons should:
-  - Glow softly when active
-  - Animate slightly when clicked
-  - Be evenly spaced and centered at bottom
-  - Minimal labels below icons
+.main{
+  position:relative;
+  width:100%;
+  max-width:1200px;
+  height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-3. Interaction:
-- Clicking each bubble should link to:
-  session1.html
-  session2.html
-  session3.html
-  session4.html
-  session5.html
+/* ===============================
+   SESSION BUBBLES
+=================================*/
 
-- Clicking:
-  - Home → homepage.html
-  - Progress → progress.html
-  - Profile → profile.html
+.bubble{
+  position:absolute;
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  font-weight:600;
+  font-size:1rem;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 0 25px rgba(0,255,255,0.15);
+  transition:0.4s ease;
+  opacity:0;
+  transform:translateY(40px);
+}
 
-4. Animation:
-- Page loads with smooth fade-in
-- Bubbles animate in one by one
-- Subtle floating effect (very soft)
+/* Glow hover */
+.bubble:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 40px rgba(159,0,255,0.5);
+}
 
-5. Responsive:
-- Works perfectly on mobile and desktop
-- Bubbles stack nicely on smaller screens
-- Bottom nav always stays fixed
+/* Floating animation */
+@keyframes float{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
 
-6. Code Requirements:
-- All code inside a single file: homepage.html
-- Internal CSS and JS
-- Clean, well-commented code
-- No external libraries
+/* Zigzag Layout */
+.b1{ top:10%; left:20%; }
+.b2{ top:35%; left:60%; }
+.b3{ top:60%; left:25%; }
+.b4{ top:25%; left:75%; }
+.b5{ top:65%; left:65%; }
 
-Make it feel like a billion-dollar startup founder academy.
-Clean. Confident. Futuristic. Not flashy.
+/* Animate in sequence */
+.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===============================
+   BOTTOM NAVIGATION
+=================================*/
+
+.navbar{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:500px;
+  height:70px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  border-radius:40px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  box-shadow:0 0 30px rgba(0,0,0,0.6);
+}
+
+.nav-item{
+  text-align:center;
+  font-size:0.8rem;
+  cursor:pointer;
+  transition:0.3s;
+  color:#aaa;
+}
+
+.nav-item span{
+  display:block;
+  font-size:1.6rem;
+  margin-bottom:5px;
+}
+
+/* Active Home */
+.active{
+  color:#00f5ff;
+  text-shadow:0 0 10px #00f5ff;
+}
+
+/* Click animation */
+.nav-item:active{
+  transform:scale(0.9);
+}
+
+/* ===============================
+   RESPONSIVE
+=================================*/
+
+@media(max-width:768px){
+
+  .bubble{
+    position:relative;
+    margin:20px auto;
+    left:0 !important;
+    top:0 !important;
+  }
+
+  .main{
+    flex-direction:column;
+    height:auto;
+    padding-top:40px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="main">
+
+  <div class="bubble b1" onclick="goSession(1)">Foundation</div>
+  <div class="bubble b2" onclick="goSession(2)">Strategy</div>
+  <div class="bubble b3" onclick="goSession(3)">Execution</div>
+  <div class="bubble b4" onclick="goSession(4)">Scaling</div>
+  <div class="bubble b5" onclick="goSession(5)">Leadership</div>
+
+</div>
+
+<!-- ===============================
+     BOTTOM NAV
+=================================-->
+
+<div class="navbar">
+
+  <div class="nav-item" onclick="goProgress()">
+    <span>📈</span>
+    Progress
+  </div>
+
+  <div class="nav-item active" onclick="goHome()">
+    <span>🏠</span>
+    Home
+  </div>
+
+  <div class="nav-item" onclick="goProfile()">
+    <span>👤</span>
+    Profile
+  </div>
+
+</div>
+
+<script>
+
+/* ===============================
+   Bubble Entrance Animation
+=================================*/
+
+const bubbles = document.querySelectorAll('.bubble');
+
+bubbles.forEach((bubble, index)=>{
+  setTimeout(()=>{
+    bubble.classList.add('show');
+    bubble.style.animation="float 6s ease-in-out infinite";
+  }, 400 * index);
+});
+
+/* ===============================
+   Navigation Functions
+=================================*/
+
+function goSession(num){
+  window.location.href = `session${num}.html`;
+}
+
+function goHome(){
+  window.location.href = "homepage.html";
+}
+
+function goProgress(){
+  window.location.href = "progress.html";
+}
+
+function goProfile(){
+  window.location.href = "profile.html";
+}
+
+</script>
+
+</body>
+</html>
