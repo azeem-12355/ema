@@ -1,1 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 01 – Foundation</title>
 
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0B0F1A, #05070D);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Cinematic Background Zoom */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(15,30,64,0.3), transparent 70%);
+    animation: zoom 20s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+}
+
+.container {
+    padding-top: 100px;
+    padding-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Step Node */
+.step {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #101624;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 60px 0;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.step:hover:not(.locked) {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+    border: 1px solid rgba(59,130,246,0.4);
+}
+
+.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.locked::after {
+    content: "🔒";
+    position: absolute;
+    bottom: 8px;
+    font-size: 14px;
+}
+
+/* Zigzag alignment */
+.left { align-self: flex-start; margin-left: 12%; }
+.right { align-self: flex-end; margin-right: 12%; }
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: #121826;
+    padding: 14px 28px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="stepsContainer"></div>
+
+<div class="notification" id="notification">
+    Complete previous step.
+</div>
+
+<script>
+const totalSteps = 12;
+const container = document.getElementById("stepsContainer");
+const notification = document.getElementById("notification");
+
+let unlockedStep = JSON.parse(localStorage.getItem("session1Progress")) || 1;
+
+function createSteps() {
+    for (let i = 1; i <= totalSteps; i++) {
+        const step = document.createElement("div");
+        step.classList.add("step");
+        step.dataset.id = i;
+        step.innerText = i.toString().padStart(2, "0");
+
+        if (i > unlockedStep) {
+            step.classList.add("locked");
+        }
+
+        // Zigzag layout
+        if (i % 2 === 1) {
+            step.classList.add("left");
+        } else {
+            step.classList.add("right");
+        }
+
+        step.addEventListener("click", () => handleStepClick(i));
+        container.appendChild(step);
+    }
+}
+
+function handleStepClick(stepId) {
+    if (stepId > unlockedStep) {
+        showNotification("Complete previous step.");
+        return;
+    }
+
+    if (stepId === unlockedStep && unlockedStep < totalSteps) {
+        unlockedStep++;
+        localStorage.setItem("session1Progress", unlockedStep);
+        updateSteps();
+        showNotification("Next step unlocked.");
+    }
+}
+
+function updateSteps() {
+    document.querySelectorAll(".step").forEach(step => {
+        const id = parseInt(step.dataset.id);
+        if (id <= unlockedStep) {
+            step.classList.remove("locked");
+        }
+    });
+}
+
+function showNotification(message) {
+    notification.textContent = message;
+    notification.classList.add("show");
+    setTimeout(() => notification.classList.remove("show"), 2500);
+}
+
+createSteps();
+</script>
+
+</body>
+</html>
