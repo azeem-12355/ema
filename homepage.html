@@ -25,17 +25,33 @@ html, body {
 body{
     margin:0;
     font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,var(--bg-dark),var(--bg-darker));
+    background:linear-gradient(
+        -45deg,
+        #0B0F1A,
+        #05070D,
+        #111a2e,
+        #0f172a,
+        #0B0F1A
+    );
+    background-size:400% 400%;
+    animation:gradientMove 18s ease infinite;
     color:white;
 }
 
-/* Cinematic background */
+/* Moving gradient animation */
+@keyframes gradientMove{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+}
+
+/* Soft cinematic radial overlay */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:radial-gradient(circle at center, rgba(15,30,64,0.3), transparent 70%);
-    animation:zoom 22s ease-in-out infinite alternate;
+    background:radial-gradient(circle at center, rgba(15,30,64,0.35), transparent 70%);
+    pointer-events:none;
     z-index:-1;
 }
 
