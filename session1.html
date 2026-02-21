@@ -3,80 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Session 01 – Foundation</title>
-
+<title>Session 1 – Foundation</title>
 <style>
+:root {
+    --bg-dark:#0B0F1A;
+    --bg-darker:#05070D;
+    --accent:#3b82f6;
+    --surface:#101624;
+    --text-light:rgba(255,255,255,0.9);
+    --text-dim:rgba(255,255,255,0.65);
+}
+
+/* Body & Background */
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0B0F1A, #05070D);
-    color: white;
-    overflow-x: hidden;
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background: linear-gradient(135deg,var(--bg-dark),var(--bg-darker));
+    color: var(--text-light);
+    overflow-x:hidden;
 }
 
 /* Cinematic Background Zoom */
 body::before {
-    content: "";
+    content:"";
     position: fixed;
-    inset: 0;
+    inset:0;
     background: radial-gradient(circle at center, rgba(15,30,64,0.3), transparent 70%);
-    animation: zoom 20s ease-in-out infinite alternate;
+    animation: zoom 22s ease-in-out infinite alternate;
     z-index: -1;
 }
+@keyframes zoom { from{transform:scale(1);} to{transform:scale(1.06);} }
 
-@keyframes zoom {
-    from { transform: scale(1); }
-    to { transform: scale(1.06); }
-}
-
-.container {
-    padding-top: 100px;
-    padding-bottom: 120px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Step Node */
-.step {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: #101624;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Back Button */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(59,130,246,0.2);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
     font-weight: 600;
-    font-size: 18px;
-    margin: 60px 0;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+}
+.back-btn:hover {
+    background: rgba(59,130,246,0.5);
+}
+
+/* Container */
+.container {
+    padding-top:80px;
+    padding-bottom:120px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+}
+
+/* Step Nodes */
+.step-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 50px 0;
+    position: relative;
+}
+
+.step {
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    background: var(--surface);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:600;
+    font-size:18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    border:1px solid rgba(255,255,255,0.05);
+    transition:0.3s cubic-bezier(0.22,1,0.36,1);
+    cursor:pointer;
     position: relative;
 }
 
 .step:hover:not(.locked) {
     transform: translateY(-6px);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.8);
-    border: 1px solid rgba(59,130,246,0.4);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    border:1px solid var(--accent);
 }
 
 .locked {
-    opacity: 0.5;
-    cursor: not-allowed;
+    opacity:0.5;
+    cursor:not-allowed;
 }
 
 .locked::after {
-    content: "🔒";
-    position: absolute;
-    bottom: 8px;
-    font-size: 14px;
+    content:"🔒";
+    position:absolute;
+    bottom:8px;
+    font-size:14px;
 }
 
-/* Zigzag alignment */
-.left { align-self: flex-start; margin-left: 12%; }
-.right { align-self: flex-end; margin-right: 12%; }
+/* Subtle zigzag */
+.left { margin-left:5%; }
+.right { margin-right:5%; }
+
+/* Description next to bubble */
+.desc {
+    max-width: 300px;
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-left: 20px;
+    text-align: left;
+}
+.step-wrapper.right .desc {
+    margin-left: 0;
+    margin-right: 20px;
+    text-align: right;
+}
 
 /* Notification */
 .notification {
@@ -84,86 +130,96 @@ body::before {
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%) translateY(40px);
-    background: #121826;
-    padding: 14px 28px;
-    border-radius: 8px;
-    opacity: 0;
-    transition: 0.4s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    background:#121826;
+    padding:14px 28px;
+    border-radius:8px;
+    opacity:0;
+    transition:0.4s ease;
+    box-shadow:0 10px 30px rgba(0,0,0,0.7);
 }
-
 .notification.show {
-    opacity: 1;
+    opacity:1;
     transform: translateX(-50%) translateY(0);
 }
 </style>
 </head>
-
 <body>
+
+<!-- Back to Homepage -->
+<button class="back-btn" onclick="window.location.href='homepage.html'">← Back to Homepage</button>
 
 <div class="container" id="stepsContainer"></div>
 
-<div class="notification" id="notification">
-    Complete previous step.
-</div>
+<div class="notification" id="notification">Complete previous step.</div>
 
 <script>
 const totalSteps = 12;
+const courseNames = [
+    "The Moment Everything Begins",
+    "What is Entrepreneurship Really?",
+    "Entrepreneur vs Observer",
+    "Why Entrepreneurship Matters",
+    "The Entrepreneurial Mindset",
+    "Entrepreneurship is Everywhere",
+    "The Four Pillars of Entrepreneurship",
+    "Fear and Risk",
+    "Failure as Feedback",
+    "Builder Reflection Exercise",
+    "Value and Long-Term Perspective",
+    "Final Reflection"
+];
+
 const container = document.getElementById("stepsContainer");
 const notification = document.getElementById("notification");
 
-let unlockedStep = JSON.parse(localStorage.getItem("session1Progress")) || 1;
+// Only the first bubble is unlocked
+let unlockedStep = 1;
 
 function createSteps() {
-    for (let i = 1; i <= totalSteps; i++) {
+    for (let i=1; i<=totalSteps; i++) {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("step-wrapper");
+        wrapper.classList.add(i%2===1 ? "left" : "right");
+
         const step = document.createElement("div");
         step.classList.add("step");
         step.dataset.id = i;
-        step.innerText = i.toString().padStart(2, "0");
+        step.innerText = i.toString().padStart(2,"0");
 
-        if (i > unlockedStep) {
-            step.classList.add("locked");
-        }
+        if (i !== 1) step.classList.add("locked"); // keep other bubbles locked
 
-        // Zigzag layout
-        if (i % 2 === 1) {
-            step.classList.add("left");
+        const desc = document.createElement("div");
+        desc.classList.add("desc");
+        desc.innerText = courseNames[i-1];
+
+        if (i%2===1) {
+            wrapper.appendChild(step);
+            wrapper.appendChild(desc);
         } else {
-            step.classList.add("right");
+            wrapper.appendChild(desc);
+            wrapper.appendChild(step);
         }
 
         step.addEventListener("click", () => handleStepClick(i));
-        container.appendChild(step);
+
+        container.appendChild(wrapper);
     }
 }
 
 function handleStepClick(stepId) {
-    if (stepId > unlockedStep) {
+    if(stepId !== 1){
         showNotification("Complete previous step.");
         return;
     }
 
-    if (stepId === unlockedStep && unlockedStep < totalSteps) {
-        unlockedStep++;
-        localStorage.setItem("session1Progress", unlockedStep);
-        updateSteps();
-        showNotification("Next step unlocked.");
-    }
+    // Only first bubble action
+    window.location.href = "course1.html";
 }
 
-function updateSteps() {
-    document.querySelectorAll(".step").forEach(step => {
-        const id = parseInt(step.dataset.id);
-        if (id <= unlockedStep) {
-            step.classList.remove("locked");
-        }
-    });
-}
-
-function showNotification(message) {
-    notification.textContent = message;
+function showNotification(msg){
+    notification.textContent = msg;
     notification.classList.add("show");
-    setTimeout(() => notification.classList.remove("show"), 2500);
+    setTimeout(()=>notification.classList.remove("show"),2500);
 }
 
 createSteps();
