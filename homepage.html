@@ -3,176 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrepreneur Academy</title>
+<title>Founder Journey</title>
 
 <style>
+:root{
+    --bg-dark:#0B0F1A;
+    --bg-darker:#05070D;
+    --surface:#101624;
+    --accent:#3b82f6;
+    --text-dim:rgba(255,255,255,0.6);
+}
 
-/* =========================
-   GLOBAL RESET
-========================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Poppins', sans-serif;
+/* SCROLL FIX */
+html, body {
+    height:auto;
+    min-height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 body{
-  height:100vh;
-  overflow-x:hidden;
-  background:#0b0f1a;
-  color:white;
-  position:relative;
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,var(--bg-dark),var(--bg-darker));
+    color:white;
 }
 
-/* =========================
-   MOVING GRADIENT BACKGROUND
-========================= */
+/* Cinematic background */
 body::before{
-  content:"";
-  position:fixed;
-  width:200%;
-  height:200%;
-  top:-50%;
-  left:-50%;
-  background:linear-gradient(
-    45deg,
-    #0b0f1a,
-    #111a2e,
-    #16213e,
-    #1a1f36,
-    #0b0f1a
-  );
-  background-size:400% 400%;
-  animation:gradientMove 15s ease infinite;
-  z-index:-3;
+    content:"";
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle at center, rgba(15,30,64,0.3), transparent 70%);
+    animation:zoom 22s ease-in-out infinite alternate;
+    z-index:-1;
 }
 
-@keyframes gradientMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+@keyframes zoom{
+    from{transform:scale(1);}
+    to{transform:scale(1.06);}
 }
 
-/* =========================
-   GRID LINES BACKGROUND
-========================= */
-.grid{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size:50px 50px;
-  z-index:-2;
-  pointer-events:none;
+/* Sidebar */
+.sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    width:260px;
+    height:100%;
+    background:#0f1422;
+    padding:30px 20px;
+    transition:0.4s cubic-bezier(.22,1,.36,1);
+    box-shadow:5px 0 40px rgba(0,0,0,0.6);
+    z-index:10;
+}
+.sidebar.open{ left:0; }
+
+.sidebar h2{
+    margin-bottom:30px;
+    font-size:18px;
+    opacity:0.8;
+}
+.sidebar a{
+    display:block;
+    margin:15px 0;
+    text-decoration:none;
+    color:var(--text-dim);
+    transition:0.3s;
+}
+.sidebar a:hover{
+    color:white;
+    transform:translateX(5px);
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
+/* Menu button */
+.menu-btn{
+    position:fixed;
+    top:20px;
+    left:20px;
+    cursor:pointer;
+    z-index:11;
+}
+.menu-btn div{
+    width:24px;
+    height:2px;
+    background:white;
+    margin:6px 0;
+}
+
+/* Sessions */
 .container{
-  padding:60px 80px;
-  position:relative;
-  z-index:2; /* ensures boxes cover grid */
+    padding-top:120px;
+    padding-bottom:160px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
-h1{
-  font-size:38px;
-  margin-bottom:50px;
-  letter-spacing:1px;
+.session{
+    width:320px;
+    height:130px;
+    background:var(--surface);
+    border-radius:18px;
+    padding:24px;
+    margin:70px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.05);
+    transition:0.3s cubic-bezier(.22,1,.36,1);
+    position:relative;
+    cursor:pointer;
 }
 
-/* =========================
-   COURSE GRID
-========================= */
-.course-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-  gap:30px;
+.session:hover:not(.locked){
+    transform:translateY(-8px);
+    border:1px solid var(--accent);
 }
 
-/* =========================
-   COURSE CARD
-========================= */
-.course-card{
-  background:rgba(15, 20, 40, 0.95); /* solid so grid not visible */
-  border-radius:20px;
-  padding:30px;
-  backdrop-filter:blur(12px);
-  box-shadow:0 20px 40px rgba(0,0,0,0.5);
-  transition:0.4s;
-  position:relative;
-  overflow:hidden;
+.session-number{
+    font-size:28px;
+    font-weight:700;
+    opacity:0.7;
 }
 
-.course-card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 25px 50px rgba(0,0,0,0.7);
+.locked{
+    opacity:0.5;
+    cursor:not-allowed;
 }
 
-.course-card h3{
-  margin-bottom:15px;
-  font-size:20px;
+.lock-icon{
+    position:absolute;
+    top:15px;
+    right:18px;
+    font-size:14px;
 }
 
-.course-card p{
-  font-size:14px;
-  color:#b5b5c3;
+.left{align-self:flex-start;margin-left:12%;}
+.right{align-self:flex-end;margin-right:12%;}
+.center{align-self:center;}
+
+/* Notification */
+.notification{
+    position:fixed;
+    bottom:110px;
+    left:50%;
+    transform:translateX(-50%) translateY(40px);
+    background:#121826;
+    padding:14px 28px;
+    border-radius:8px;
+    opacity:0;
+    transition:0.4s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.7);
+}
+.notification.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 
-/* =========================
-   REALISTIC ICON STYLE
-========================= */
-.icon{
-  font-size:40px;
-  margin-bottom:20px;
-  filter:drop-shadow(0 0 10px rgba(255,255,255,0.4));
+/* Bottom nav */
+.nav{
+    position:fixed;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:80px;
 }
-
+.nav svg{
+    width:28px;
+    height:28px;
+    stroke:rgba(255,255,255,0.6);
+    fill:none;
+    stroke-width:1.8;
+    cursor:pointer;
+    transition:0.25s ease;
+}
+.nav svg:hover{
+    transform:scale(1.15);
+    stroke:white;
+}
+.nav .active{
+    stroke:var(--accent);
+}
 </style>
 </head>
 
 <body>
 
-<div class="grid"></div>
+<div class="menu-btn" onclick="toggleSidebar()">
+    <div></div><div></div><div></div>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <h2>Founder Navigation</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">My Progress</a>
+    <a href="#">Resources</a>
+    <a href="#">Certificates</a>
+    <a href="#">Settings</a>
+</div>
 
 <div class="container">
-
-  <h1>Level 3 – Advanced Entrepreneurship</h1>
-
-  <div class="course-grid">
-
-    <div class="course-card">
-      <div class="icon">💼</div>
-      <h3>Business Structuring</h3>
-      <p>Learn to structure companies for scalability and legal strength.</p>
+    <div class="session left" data-id="1">
+        <div class="session-number">01</div>
+        <div>Foundation</div>
     </div>
 
-    <div class="course-card">
-      <div class="icon">📈</div>
-      <h3>Advanced Marketing</h3>
-      <p>Build powerful brand positioning and growth systems.</p>
+    <div class="session right locked" data-id="2">
+        <div class="session-number">02</div>
+        <div>Execution</div>
+        <div class="lock-icon">🔒</div>
     </div>
 
-    <div class="course-card">
-      <div class="icon">💰</div>
-      <h3>Funding Strategy</h3>
-      <p>Master investor psychology and capital acquisition models.</p>
+    <div class="session left locked" data-id="3">
+        <div class="session-number">03</div>
+        <div>Scaling</div>
+        <div class="lock-icon">🔒</div>
     </div>
 
-    <div class="course-card">
-      <div class="icon">🤖</div>
-      <h3>Automation Systems</h3>
-      <p>Implement AI and automation for scale efficiency.</p>
+    <div class="session right locked" data-id="4">
+        <div class="session-number">04</div>
+        <div>Authority</div>
+        <div class="lock-icon">🔒</div>
     </div>
 
-  </div>
-
+    <div class="session center locked" data-id="5">
+        <div class="session-number">05</div>
+        <div>Legacy</div>
+        <div class="lock-icon">🔒</div>
+    </div>
 </div>
+
+<div class="notification" id="notification"></div>
+
+<div class="nav">
+    <svg viewBox="0 0 24 24">
+        <polyline points="4 14 8 10 12 14 20 6"></polyline>
+    </svg>
+    <svg class="active" viewBox="0 0 24 24">
+        <path d="M3 12l9-9 9 9"></path>
+        <path d="M9 21V9h6v12"></path>
+    </svg>
+    <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M6 20c1.5-4 10.5-4 12 0"></path>
+    </svg>
+</div>
+
+<script>
+const sessions=document.querySelectorAll(".session");
+const notification=document.getElementById("notification");
+
+sessions.forEach(session=>{
+    session.addEventListener("click",()=>{
+        const id=parseInt(session.dataset.id);
+
+        if(id===1){
+            window.location.href="session1.html";
+        }else{
+            showNotification("Complete previous section.");
+        }
+    });
+});
+
+function showNotification(message){
+    notification.textContent=message;
+    notification.classList.add("show");
+    setTimeout(()=>notification.classList.remove("show"),2500);
+}
+
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("open");
+}
+</script>
 
 </body>
 </html>
