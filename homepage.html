@@ -120,7 +120,7 @@ body::before{
     width:320px;
     height:130px;
     position:relative;
-    margin:70px 0;
+    margin:10px 0;
     padding:24px;
 
     display:flex;
@@ -200,14 +200,14 @@ body::before{
     animation:glowPulse 2s ease-in-out infinite;
 }
 .session-number{
-    font-size:28px;
+    font-size:40px;
     font-weight:700;
     opacity:0.7;
 }
 
 .locked{
     opacity:0.5;
-    cursor:not-allowed;
+    ;
 }
 
 .lock-icon{
@@ -307,6 +307,46 @@ body::before{
     from{ opacity:0.3; }
     to{ opacity:0.6; }
 }
+/* ROW WRAPPER */
+.session-row{
+    width:100%;
+    display:flex;
+    align-items:center;   /* THIS makes them perfectly horizontal */
+    gap:60px;
+    margin:100px 0;
+}
+
+/* LEFT alignment */
+.session-row.left{
+    justify-content:flex-start;
+    padding-left:12%;
+}
+
+/* RIGHT alignment */
+.session-row.right{
+    justify-content:flex-end;
+    padding-right:12%;
+}
+
+/* CENTER alignment */
+.session-row.center{
+    flex-direction:column;
+    align-items:center;
+}
+
+/* SIDE DESCRIPTION */
+.session-side-desc{
+    max-width:340px;
+    font-size:18px;
+    line-height:1.9;
+    color:rgba(255,255,255,0.75);
+}
+
+/* Center description */
+.center-desc{
+    margin-top:25px;
+    text-align:center;
+}
 </style>
 </head>
 
@@ -326,34 +366,66 @@ body::before{
 </div>
 
 <div class="container">
-    <div class="session left" data-id="1">
-        <div class="session-number">01</div>
-        <div>Foundation</div>
+
+    <!-- 01 -->
+    <div class="session-row left">
+        <div class="session" data-id="1">
+            <div class="session-number">01</div>
+            <div>Foundation</div>
+        </div>
+        <div class="session-side-desc">
+            Build entrepreneurial mindset, clarity of vision, and core business fundamentals.
+        </div>
     </div>
 
-    <div class="session right locked" data-id="2">
-        <div class="session-number">02</div>
-        <div>Execution</div>
-        <div class="lock-icon">🔒</div>
+    <!-- 02 -->
+    <div class="session-row right">
+        <div class="session-side-desc">
+            Turn ideas into systems. Develop discipline, workflow, and revenue models.
+        </div>
+        <div class="session locked" data-id="2">
+            <div class="session-number">02</div>
+            <div>Execution</div>
+            <div class="lock-icon">🔒</div>
+        </div>
     </div>
 
-    <div class="session left locked" data-id="3">
-        <div class="session-number">03</div>
-        <div>Scaling</div>
-        <div class="lock-icon">🔒</div>
+    <!-- 03 -->
+    <div class="session-row left">
+        <div class="session locked" data-id="3">
+            <div class="session-number">03</div>
+            <div>Scaling</div>
+            <div class="lock-icon">🔒</div>
+        </div>
+        <div class="session-side-desc">
+            Automate growth, optimize marketing engines, and scale operational systems.
+        </div>
     </div>
 
-    <div class="session right locked" data-id="4">
-        <div class="session-number">04</div>
-        <div>Authority</div>
-        <div class="lock-icon">🔒</div>
+    <!-- 04 -->
+    <div class="session-row right">
+        <div class="session-side-desc">
+            Build brand positioning, thought leadership, and market dominance.
+        </div>
+        <div class="session locked" data-id="4">
+            <div class="session-number">04</div>
+            <div>Authority</div>
+            <div class="lock-icon">🔒</div>
+        </div>
     </div>
 
-    <div class="session center locked" data-id="5">
-        <div class="session-number">05</div>
-        <div>Legacy</div>
-        <div class="lock-icon">🔒</div>
+    <!-- 05 -->
+    <div class="session-row center">
+        <div class="session locked" data-id="5">
+            <div class="session-number">05</div>
+            <div>Legacy</div>
+            <div class="lock-icon">🔒</div>
+        </div>
+        <div class="session-side-desc center-desc">
+            Create sustainable impact, investment structures, and generational wealth.
+        </div>
     </div>
+
 </div>
 
 <div class="notification" id="notification"></div>
