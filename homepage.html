@@ -119,25 +119,68 @@ body::before{
 .session{
     width:320px;
     height:130px;
-    background:var(--surface);
-    border-radius:18px;
-    padding:24px;
+    position:relative;
     margin:70px 0;
+    padding:24px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    box-shadow:0 15px 40px rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.05);
-    transition:0.3s cubic-bezier(.22,1,.36,1);
-    position:relative;
+
+    border-radius:20px;
+
+    /* Ultra glass base */
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    /* Deep layered shadow */
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.7),
+        inset 0 0 25px rgba(255,255,255,0.03);
+
+    transition:all 0.4s cubic-bezier(.22,1,.36,1);
     cursor:pointer;
+    overflow:hidden;
 }
 
+/* Shine reflection sweep */
+.session::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background:linear-gradient(
+        120deg,
+        transparent 40%,
+        rgba(255,255,255,0.08),
+        transparent 60%
+    );
+    transform:rotate(25deg);
+    transition:0.6s;
+    opacity:0;
+}
+
+.session:hover:not(.locked)::before{
+    opacity:1;
+    left:100%;
+}
+
+/* Glow effect on hover */
 .session:hover:not(.locked){
-    transform:translateY(-8px);
-    border:1px solid var(--accent);
-}
+    transform:translateY(-10px) scale(1.02);
 
+    border:1px solid rgba(59,130,246,0.6);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.9),
+        0 0 40px rgba(59,130,246,0.35),
+        inset 0 0 30px rgba(59,130,246,0.08);
+}
 .session-number{
     font-size:28px;
     font-weight:700;
