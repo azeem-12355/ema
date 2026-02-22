@@ -5,24 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course 1 | Introduction to Entrepreneurship</title>
 
-<!-- Professional Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
-/* Background outside the page */
 body{
-    margin:0;
     background: linear-gradient(135deg, #0B0F19 0%, #0F172A 50%, #111827 100%);
     font-family:'Inter', sans-serif;
-
 }
+
+/* Back Button */
 .back-btn{
     position:fixed;
     top:25px;
@@ -34,73 +31,115 @@ body{
     font-size:14px;
     font-weight:500;
     text-decoration:none;
-    box-shadow:
-        0 10px 25px rgba(59,130,246,0.4),
-        0 0 20px rgba(59,130,246,0.5);
+    box-shadow: 0 10px 25px rgba(59,130,246,0.4);
     transition:0.3s ease;
 }
 
 .back-btn:hover{
     transform:translateY(-3px);
-    box-shadow:
-        0 15px 35px rgba(59,130,246,0.6),
-        0 0 30px rgba(59,130,246,0.8);
-}
-/* Page Container (PDF Effect) */
-.page{
-    background:#ffffff;
-    width:95%;                 /* creates side gap */
-    max-width:1050px;          /* prevents it from stretching too wide */
-    margin:30px auto;          /* top & bottom gap */
-    padding:80px 90px;
-    border-radius:28px;
-    box-shadow:
-        0 40px 80px rgba(0,0,0,0.6);
-}
-.page h1{
-    font-family:'Playfair Display', serif;
-    font-size:36px;
-    font-weight:700;
-    margin-bottom:35px;
-    letter-spacing:0.5px;
 }
 
-/* Section Headings */
+/* Page */
+.page{
+    background:#ffffff;
+    width:92%;
+    max-width:1000px;
+    margin:50px auto;
+    padding:90px;
+    border-radius:24px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+
+/* Main Title */
+.page h1{
+    font-family:'Playfair Display', serif;
+    font-size:38px;
+    margin-bottom:50px;
+    text-align:center;
+}
+
+/* Chapter Heading */
 .page h2{
     font-family:'Playfair Display', serif;
     font-size:22px;
-    margin-top:50px;
+    margin-top:55px;
     margin-bottom:18px;
     font-weight:600;
+    color:#111;
+    border-left:4px solid #2563EB;
+    padding-left:12px;
 }
 
-/* Paragraphs */
+/* Paragraph */
 .page p{
     font-size:16px;
     line-height:1.9;
     margin-bottom:18px;
-    color:#222;
+    color:#333;
 }
 
 /* Lists */
 .page ul{
     margin-left:25px;
-    margin-bottom:20px;
+    margin-bottom:25px;
 }
 
 .page li{
-    margin-bottom:8px;
+    margin-bottom:10px;
     line-height:1.7;
+    color:#333;
 }
 
 /* Footer */
 .footer{
     text-align:center;
     font-size:13px;
-    color:#777;
-    margin:40px 0 60px 0;
+    color:#aaa;
+    margin:50px 0 60px 0;
+}
+</style>
+<style>
+.lab-box{
+    margin-top:100px;
+    padding:50px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#0F172A,#111827);
+    color:white;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(0,0,0,0.4);
+
+    opacity:0;
+    transform:translateY(60px);
+    transition:0.8s ease;
 }
 
+.lab-content h2{
+    font-size:26px;
+    margin-bottom:20px;
+}
+
+.lab-content p{
+    max-width:650px;
+    margin:0 auto 30px auto;
+    line-height:1.8;
+    opacity:0.85;
+}
+
+.lab-btn{
+    display:inline-block;
+    padding:15px 40px;
+    border-radius:50px;
+    text-decoration:none;
+    font-size:15px;
+    color:white;
+    background:linear-gradient(135deg,#3B82F6,#2563EB);
+    box-shadow:0 15px 40px rgba(59,130,246,0.5);
+    transition:0.3s ease;
+}
+
+.lab-btn:hover{
+    transform:translateY(-5px);
+}
 </style>
 </head>
 
@@ -111,7 +150,6 @@ body{
 <div class="page">
 
 <h2>Chapter 1: What Is Entrepreneurship?</h2>
-
 <p>Many people think entrepreneurship simply means starting a business. That is only part of the story. Entrepreneurship is the process of turning an idea into something real that helps people and creates value.</p>
 
 <p>An entrepreneur sees a problem and thinks, “How can I solve this better?” Then they take action. They plan, organize resources, and build a system that works. It can be a small shop in a neighborhood, a digital app used around the world, or a project that helps the environment.</p>
@@ -351,32 +389,35 @@ How they will grow</p>
 <p>When understood properly, entrepreneurship is not gambling. It is a structured and disciplined way of building the future.</p>
 
 <p>Anyone who learns these principles gains the foundation to create, lead, and grow responsibly.</p>
-
 </div>
 
 <div class="footer">
 Entrepreneur Mastery Academy © 2026
 </div>
+<!-- ===== LAB BOX START ===== -->
+<div id="labBox" class="lab-box">
+    <div class="lab-content">
+        <h2>🧪 Mastery Lab – Required Assessment</h2>
+        <p>
+            Complete and pass the Lab (80%+) to unlock Session 2.
+            This verifies your understanding of entrepreneurship fundamentals.
+        </p>
+        <a href="lab1.html" class="lab-btn">Enter Lab Assessment →</a>
+    </div>
+</div>
+<!-- ===== LAB BOX END ===== -->
 <script>
-
-// Reveal Lab Section Only When Scrolled Near Bottom
 window.addEventListener("scroll", function() {
-    const lab = document.getElementById("labSection");
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const pageHeight = document.body.offsetHeight;
+    const lab = document.getElementById("labBox");
+    const position = lab.getBoundingClientRect().top;
+    const screenPosition = window.innerHeight - 120;
 
-    if(scrollPosition > pageHeight - 300) {
+    if(position < screenPosition){
         lab.style.opacity = "1";
         lab.style.transform = "translateY(0)";
     }
 });
-
-// Check if Lab Passed
-if(localStorage.getItem("course1Passed") === "true") {
-    document.getElementById("unlockSession2").innerHTML =
-        '<a href="session2.html" class="unlock-btn">Proceed to Session 2 →</a>';
-}
-
 </script>
+
 </body>
 </html>
