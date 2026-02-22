@@ -357,6 +357,26 @@ How they will grow</p>
 <div class="footer">
 Entrepreneur Mastery Academy © 2026
 </div>
+<script>
 
+// Reveal Lab Section Only When Scrolled Near Bottom
+window.addEventListener("scroll", function() {
+    const lab = document.getElementById("labSection");
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const pageHeight = document.body.offsetHeight;
+
+    if(scrollPosition > pageHeight - 300) {
+        lab.style.opacity = "1";
+        lab.style.transform = "translateY(0)";
+    }
+});
+
+// Check if Lab Passed
+if(localStorage.getItem("course1Passed") === "true") {
+    document.getElementById("unlockSession2").innerHTML =
+        '<a href="session2.html" class="unlock-btn">Proceed to Session 2 →</a>';
+}
+
+</script>
 </body>
 </html>
