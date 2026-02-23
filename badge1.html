@@ -14,79 +14,88 @@ font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:linear-gradient(180deg,#0B0F1A,#000);
+background:radial-gradient(circle at top,#111827,#000);
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+overflow:hidden;
 }
 
 .container{
-width:700px;
-max-width:90%;
+width:750px;
+max-width:92%;
 background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
-padding:60px;
-border-radius:25px;
+backdrop-filter:blur(25px);
+padding:70px;
+border-radius:30px;
 text-align:center;
-box-shadow:0 0 40px rgba(0,0,0,0.6);
+box-shadow:0 0 60px rgba(0,0,0,0.8);
+animation:fadeIn 0.8s ease forwards;
 }
 
-.pass-title{
-font-size:32px;
-color:#00c6ff;
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.title-pass{
+font-size:34px;
+color:#00E5FF;
 margin-bottom:15px;
 }
 
-.fail-title{
-font-size:32px;
-color:#ff4d4d;
+.title-fail{
+font-size:34px;
+color:#FF4D4D;
 margin-bottom:15px;
 }
 
-.score{
+.stats{
+margin:25px 0;
 font-size:18px;
 opacity:0.9;
-margin-bottom:20px;
+line-height:1.8;
 }
 
 .badge{
-width:160px;
-height:160px;
+width:180px;
+height:180px;
 border-radius:50%;
-margin:30px auto;
-background:linear-gradient(135deg,#00c6ff,#0072ff);
+margin:40px auto;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:70px;
-box-shadow:0 0 40px rgba(0,114,255,0.7);
-animation:pop 0.6s ease forwards;
+font-size:80px;
+background:linear-gradient(135deg,#FFD700,#FFB700);
+box-shadow:0 0 60px rgba(255,215,0,0.8);
+animation:scaleUp 0.6s ease forwards;
 }
 
-@keyframes pop{
+@keyframes scaleUp{
 0%{transform:scale(0);}
 100%{transform:scale(1);}
 }
 
 .btn{
-padding:14px 30px;
+padding:15px 35px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 color:white;
 font-size:16px;
 cursor:pointer;
-margin-top:25px;
+margin-top:30px;
 transition:0.3s;
 }
 
 .btn:hover{
-opacity:0.85;
+transform:scale(1.05);
 }
 </style>
 </head>
+
 <body>
 
 <div class="container" id="result-container">
@@ -94,26 +103,38 @@ opacity:0.85;
 
 <script>
 
-// Get score from localStorage
+// Get stored data
 let score = parseFloat(localStorage.getItem("labScore")) || 0;
+let xp = parseInt(localStorage.getItem("labXP")) || 0;
 
 const container = document.getElementById("result-container");
 
 if(score >= 80){
 
 container.innerHTML = `
-<div class="pass-title">🔥 Congratulations Founder!</div>
-<div class="score">You scored ${score}%</div>
-<div class="badge">🏆</div>
-<button class="btn" onclick="continueNext()">Continue</button>
+<div class="title-pass">🏆 Certified Founder</div>
+
+<div class="stats">
+<strong>Final Score:</strong> ${score}% <br>
+<strong>XP Earned:</strong> ${xp} XP
+</div>
+
+<div class="badge">🚀</div>
+
+<button class="btn" onclick="continueNext()">Continue Journey</button>
 `;
 
 }else{
 
 container.innerHTML = `
-<div class="fail-title">⚠️ Try Again</div>
-<div class="score">You scored ${score}%</div>
-<button class="btn" onclick="retryTest()">Retake Test</button>
+<div class="title-fail">⚠️ Assessment Not Passed</div>
+
+<div class="stats">
+<strong>Your Score:</strong> ${score}% <br>
+<strong>XP Earned:</strong> ${xp} XP
+</div>
+
+<button class="btn" onclick="retryTest()">Retake Assessment</button>
 `;
 
 }
@@ -127,5 +148,6 @@ window.location.href = "lab1.html";
 }
 
 </script>
+
 </body>
 </html>
