@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Entrepreneurship Mastery Experience</title>
+<title>Entrepreneurship Mastery Challenge</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -39,21 +39,6 @@ h1 {
 .option:hover {
     background: #2563EB;
 }
-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #3B82F6;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-}
-#result {
-    margin-top: 30px;
-    padding: 20px;
-    background: #111827;
-    border-left: 4px solid #F59E0B;
-}
 .progress {
     height: 10px;
     background: #1F2937;
@@ -65,6 +50,7 @@ button {
     height: 10px;
     width: 0%;
     background: #3B82F6;
+    transition: 0.4s ease;
 }
 .correct { background: #065F46 !important; }
 .wrong { background: #7F1D1D !important; }
@@ -83,110 +69,211 @@ button {
 
 <div id="quiz"></div>
 
-<div id="result"></div>
-
 </div>
 
 <script>
 
+const PASS_PERCENTAGE = 80;
+const XP_PER_CORRECT = 10;
+
 const questions = [
 {
-question: "Entrepreneurship is primarily about:",
+question: "Entrepreneurship fundamentally exists to:",
 options: [
-"Making quick money",
-"Turning ideas into value by solving problems",
-"Taking extreme risks",
-"Starting any business regardless of impact"
+"Generate attention on social media",
+"Turn opportunities into value by solving meaningful problems",
+"Eliminate all uncertainty",
+"Compete aggressively without strategy"
 ],
 answer: 1
 },
 {
-question: "Creative destruction means:",
+question: "Opportunity recognition happens when:",
 options: [
-"Destroying competitors physically",
-"Replacing old systems with innovative solutions",
-"Stopping business growth",
-"Reducing profits intentionally"
+"You copy a trending idea",
+"You identify an unmet need and validate demand",
+"You lower prices drastically",
+"You wait for competitors to fail"
 ],
 answer: 1
 },
 {
-question: "Correct order of entrepreneurial steps:",
+question: "Creative destruction refers to:",
 options: [
-"Launch → Idea → Resources → Test",
-"Opportunity → Develop → Test → Gather Resources → Launch",
-"Develop → Opportunity → Launch",
-"Test → Launch → Opportunity"
+"Destroying small businesses",
+"Replacing outdated systems with innovative solutions",
+"Breaking company rules",
+"Reducing operational cost only"
+],
+answer: 1
+},
+{
+question: "The correct entrepreneurial sequence is:",
+options: [
+"Launch → Idea → Test",
+"Opportunity → Develop → Test → Resource Alignment → Launch",
+"Develop → Launch → Opportunity",
+"Test → Launch → Ignore Feedback"
 ],
 answer: 1
 },
 {
 question: "Risk differs from uncertainty because risk:",
 options: [
-"Cannot be predicted at all",
-"Can be estimated using information",
-"Is always negative",
-"Guarantees loss"
+"Cannot be analyzed",
+"Can be estimated using available data",
+"Guarantees failure",
+"Is purely emotional"
 ],
 answer: 1
 },
 {
-question: "Which is innovation without invention?",
+question: "Scalability means:",
 options: [
-"Creating a new planet",
-"Improving delivery speed of an existing service",
+"Increasing revenue without proportional cost growth",
+"Hiring more employees immediately",
+"Spending more on advertising",
+"Expanding without validation"
+],
+answer: 0
+},
+{
+question: "Innovation without invention means:",
+options: [
+"Creating new technology always",
+"Improving existing systems for better efficiency",
 "Copying competitors exactly",
-"Ignoring customer feedback"
+"Ignoring user feedback"
 ],
 answer: 1
 },
 {
-question: "Growth vs Scaling:",
+question: "Most startups fail primarily because of:",
 options: [
-"Growth increases cost equally with revenue",
-"Scaling increases revenue without equal cost increase",
-"They are identical",
-"Scaling reduces revenue"
+"Too much marketing",
+"Lack of real market demand",
+"Too many investors",
+"High ambition"
 ],
 answer: 1
 },
 {
-question: "Main reason businesses fail:",
+question: "Founder-level thinking prioritizes:",
 options: [
-"Too much planning",
-"Lack of real demand",
-"Too many customers",
-"Too much value"
+"Short-term wins",
+"Structured long-term value creation",
+"Random experimentation",
+"Avoiding accountability"
 ],
 answer: 1
 },
 {
-question: "Entrepreneurial mindset requires:",
+question: "Ethical leadership builds:",
 options: [
-"Luck and shortcuts",
-"Patience, adaptability, discipline",
-"Avoiding stress",
-"Instant success"
+"Temporary advantage",
+"Long-term trust and reputation",
+"Fear-based authority",
+"Quick dominance"
 ],
 answer: 1
 },
 {
 question: "Profit exists because:",
 options: [
-"Marketing tricks",
-"Value is created for customers",
+"Markets are inefficient",
+"Value is created and delivered effectively",
 "Competition is weak",
-"Prices are random"
+"Pricing is random"
 ],
 answer: 1
 },
 {
-question: "Ethical behavior builds:",
+question: "Product-market fit occurs when:",
 options: [
-"Temporary advantage",
-"Long-term trust and reputation",
-"Fear in employees",
-"Faster failure"
+"Customers consistently demand and pay for the solution",
+"Marketing spend increases",
+"Founders feel confident",
+"Investors approve the idea"
+],
+answer: 0
+},
+{
+question: "A strong value proposition:",
+options: [
+"Focuses on features only",
+"Clearly explains the specific problem solved",
+"Targets everyone equally",
+"Avoids differentiation"
+],
+answer: 1
+},
+{
+question: "Bootstrapping teaches founders:",
+options: [
+"Resource discipline and efficiency",
+"Dependence on funding",
+"Rapid overspending",
+"Risk avoidance"
+],
+answer: 0
+},
+{
+question: "Competitive advantage becomes sustainable when:",
+options: [
+"It is difficult to replicate",
+"It is widely copied",
+"It relies only on pricing",
+"It avoids innovation"
+],
+answer: 0
+},
+{
+question: "Customer validation should happen:",
+options: [
+"After full product launch",
+"Before major scaling decisions",
+"After hiring 50 employees",
+"After global expansion"
+],
+answer: 1
+},
+{
+question: "A founder’s primary role evolves into:",
+options: [
+"Micromanaging everything",
+"Building systems and empowering teams",
+"Doing all operational tasks",
+"Avoiding delegation"
+],
+answer: 1
+},
+{
+question: "Cash flow is critical because:",
+options: [
+"Profit guarantees survival",
+"Revenue equals liquidity",
+"Cash sustains operations regardless of profit timing",
+"Investors always provide backup"
+],
+answer: 2
+},
+{
+question: "Resilience in entrepreneurship means:",
+options: [
+"Ignoring failure",
+"Learning, adapting, and iterating quickly",
+"Avoiding risk entirely",
+"Changing goals daily"
+],
+answer: 1
+},
+{
+question: "True mastery in entrepreneurship requires:",
+options: [
+"Shortcuts and automation only",
+"Disciplined thinking and structured execution",
+"Motivation without systems",
+"Luck and timing"
 ],
 answer: 1
 }
@@ -197,7 +284,7 @@ let score = 0;
 
 function loadQuestion() {
     if(current >= questions.length) {
-        showResult();
+        finishAssessment();
         return;
     }
 
@@ -236,30 +323,24 @@ function selectAnswer(index, element) {
     setTimeout(() => {
         current++;
         loadQuestion();
-    }, 1000);
+    }, 700);
 }
 
-function showResult() {
+function finishAssessment(){
 
-    document.getElementById("progressBar").style.width = "100%";
+    let percentage = Math.round((score / questions.length) * 100);
+    let xpEarned = score * XP_PER_CORRECT;
 
-    let message;
+    localStorage.setItem("labScore", percentage);
+    localStorage.setItem("labXP", xpEarned);
 
-    if(score >= 8) {
-        message = "Mastery Level Achieved. You understand the core principles deeply.";
-    } else if(score >= 5) {
-        message = "Moderate Understanding. Review key chapters for stronger clarity.";
+    if(percentage >= PASS_PERCENTAGE){
+        localStorage.setItem("course1Passed","true");
     } else {
-        message = "Conceptual Gaps Detected. Revisit the course before progressing.";
+        localStorage.setItem("course1Passed","false");
     }
 
-    document.getElementById("quiz").innerHTML = "";
-    document.getElementById("result").innerHTML = `
-        <h2>Final Score: ${score} / ${questions.length}</h2>
-        <p>${message}</p>
-        <br>
-        <em>AI can provide information. Mastery comes from disciplined thinking.</em>
-    `;
+    window.location.href = "badge.html";
 }
 
 loadQuestion();
