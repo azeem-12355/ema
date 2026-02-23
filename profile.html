@@ -256,14 +256,15 @@ document.getElementById("changeNameBtn").addEventListener("click",()=>{
         localStorage.setItem("userName", userName);
         document.getElementById("userName").innerText = userName;
 
-        // Update avatar initials if no image
-        if(!localStorage.getItem("avatarImage")){
+        // Update avatar if no image uploaded
+        const avatarImg = localStorage.getItem("avatarImage");
+        if(!avatarImg){
             const initials = userName.split(" ").map(n=>n[0].toUpperCase()).join("").slice(0,2);
-            document.getElementById("avatar").innerText = initials;
+            const avatarDiv = document.getElementById("avatar");
+            avatarDiv.innerText = initials;
         }
     }
 });
-
 // AVATAR UPLOAD
 const avatarInput = document.getElementById("avatarInput");
 document.getElementById("uploadAvatarBtn").addEventListener("click",()=>{
