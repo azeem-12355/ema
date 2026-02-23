@@ -267,6 +267,21 @@ function showNotification(msg){
 
 createSteps();
 </script>
+    <script>
+
+// Check unlock status
+if(localStorage.getItem("session1_unlocked") === "true"){
+    
+    const bubble2 = document.getElementById("bubble2");
+    
+    bubble2.classList.remove("locked");
+    bubble2.classList.add("active");
+
+    bubble2.style.opacity = "1";
+    bubble2.style.pointerEvents = "auto";
+}
+
+</script>
 
 </body>
 </html>
