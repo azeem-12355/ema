@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder Assessment Result</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(180deg,#0B0F1A,#000);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:700px;
+max-width:90%;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+padding:60px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 0 40px rgba(0,0,0,0.6);
+}
+
+.pass-title{
+font-size:32px;
+color:#00c6ff;
+margin-bottom:15px;
+}
+
+.fail-title{
+font-size:32px;
+color:#ff4d4d;
+margin-bottom:15px;
+}
+
+.score{
+font-size:18px;
+opacity:0.9;
+margin-bottom:20px;
+}
+
+.badge{
+width:160px;
+height:160px;
+border-radius:50%;
+margin:30px auto;
+background:linear-gradient(135deg,#00c6ff,#0072ff);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:70px;
+box-shadow:0 0 40px rgba(0,114,255,0.7);
+animation:pop 0.6s ease forwards;
+}
+
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
+}
+
+.btn{
+padding:14px 30px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-top:25px;
+transition:0.3s;
+}
+
+.btn:hover{
+opacity:0.85;
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="result-container">
+</div>
+
+<script>
+
+// Get score from URL
+const params = new URLSearchParams(window.location.search);
+const score = parseFloat(params.get("score")) || 0;
+
+const container = document.getElementById("result-container");
+
+if(score >= 80){
+
+container.innerHTML = `
+<div class="pass-title">🔥 Congratulations Founder!</div>
+<div class="score">You scored ${score}%</div>
+<div class="badge">🏆</div>
+<button class="btn" onclick="continueNext()">Continue</button>
+`;
+
+}else{
+
+container.innerHTML = `
+<div class="fail-title">⚠️ Try Again</div>
+<div class="score">You scored ${score}%</div>
+<button class="btn" onclick="retryTest()">Retake Test</button>
+`;
+
+}
+
+function continueNext(){
+window.location.href = "homepage.html"; 
+}
+
+function retryTest(){
+window.location.href = "quiz.html"; 
+}
+
+</script>
+
+</body>
+</html>
