@@ -14,7 +14,6 @@
     --text-dim:rgba(255,255,255,0.65);
 }
 
-/* Body & Background */
 body {
     margin:0;
     font-family:'Segoe UI',sans-serif;
@@ -32,7 +31,6 @@ body::before {
 }
 @keyframes zoom { from{transform:scale(1);} to{transform:scale(1.06);} }
 
-/* Back Button */
 .back-btn {
     position: fixed;
     top: 20px;
@@ -49,7 +47,6 @@ body::before {
 }
 .back-btn:hover { background: rgba(59,130,246,0.5); }
 
-/* Container */
 .container {
     padding-top:80px;
     padding-bottom:120px;
@@ -59,7 +56,6 @@ body::before {
     position:relative;
 }
 
-/* Step Nodes */
 .step-wrapper {
     display: flex;
     align-items: center;
@@ -99,7 +95,6 @@ body::before {
 .desc { max-width: 340px; font-size:15px; color: var(--text-dim); margin-left:30px; text-align:left; }
 .step-wrapper.right .desc { margin-left:0; margin-right:30px; text-align:right; }
 
-/* Notification */
 .notification {
     position: fixed;
     bottom: 40px;
@@ -143,13 +138,10 @@ const courseNames = [
 const container = document.getElementById("stepsContainer");
 const notification = document.getElementById("notification");
 
-// Check unlock status from badge page
-let unlockedStep = 1;
-if(localStorage.getItem("session1_unlocked") === "true"){
-    unlockedStep = 2;
-}
+// Retrieve unlock progress
+let unlockedStep = parseInt(localStorage.getItem("session1_progress")) || 1;
 
-// Map steps to course pages
+// Map steps to pages
 const coursePages = {
     1: "course1.html",
     2: "course2.html",
@@ -165,12 +157,12 @@ const coursePages = {
     12: "course12.html"
 };
 
-// Create steps
+// Create bubbles
 function createSteps() {
-    for (let i=1; i<=totalSteps; i++) {
+    for (let i=1;i<=totalSteps;i++){
         const wrapper = document.createElement("div");
         wrapper.classList.add("step-wrapper");
-        wrapper.classList.add(i%2===1 ? "left" : "right");
+        wrapper.classList.add(i%2===1?"left":"right");
 
         const step = document.createElement("div");
         step.classList.add("step");
@@ -178,14 +170,14 @@ function createSteps() {
         step.dataset.id = i;
         step.innerText = i.toString().padStart(2,"0");
 
-        if (i > unlockedStep) step.classList.add("locked");
+        if(i > unlockedStep) step.classList.add("locked");
         else step.classList.add("active");
 
         const desc = document.createElement("div");
         desc.classList.add("desc");
         desc.innerText = courseNames[i-1];
 
-        if (i%2===1) {
+        if(i%2===1){
             wrapper.appendChild(step);
             wrapper.appendChild(desc);
         } else {
@@ -193,28 +185,26 @@ function createSteps() {
             wrapper.appendChild(step);
         }
 
-        step.addEventListener("click", ()=>handleStepClick(i));
+        step.addEventListener("click", ()=> handleStepClick(i));
 
         container.appendChild(wrapper);
     }
 }
 
-// Handle clicks
+// Handle click
 function handleStepClick(stepId){
     if(stepId > unlockedStep){
         showNotification("Complete previous step.");
         return;
     }
-
-    // Navigate to page
     if(coursePages[stepId]){
+        // Navigate to course page
         window.location.href = coursePages[stepId];
     }
-
-    // Unlock next bubble after finishing current step
+    // Unlock next step after completion
     if(stepId === unlockedStep && unlockedStep < totalSteps){
         unlockedStep++;
-        localStorage.setItem("session1_unlocked","true");
+        localStorage.setItem("session1_progress", unlockedStep);
         const nextBubble = document.getElementById(`bubble${unlockedStep}`);
         if(nextBubble){
             nextBubble.classList.remove("locked");
