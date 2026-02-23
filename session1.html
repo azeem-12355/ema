@@ -208,6 +208,7 @@ cursor:pointer;
 <div class="notification" id="notification">Complete previous step.</div>
 
 <script>
+
 const totalSteps = 12;
 const courseNames = [
     "The Moment Everything Begins",
@@ -227,11 +228,16 @@ const courseNames = [
 const container = document.getElementById("stepsContainer");
 const notification = document.getElementById("notification");
 
-// Only the first bubble is unlocked
+// Check unlock status from badge page
 let unlockedStep = 1;
+
+if(localStorage.getItem("session1_unlocked") === "true"){
+    unlockedStep = 2;
+}
 
 function createSteps() {
     for (let i=1; i<=totalSteps; i++) {
+
         const wrapper = document.createElement("div");
         wrapper.classList.add("step-wrapper");
         wrapper.classList.add(i%2===1 ? "left" : "right");
@@ -241,7 +247,10 @@ function createSteps() {
         step.dataset.id = i;
         step.innerText = i.toString().padStart(2,"0");
 
-        if (i !== 1) step.classList.add("locked"); // keep other bubbles locked
+        // Lock steps greater than unlockedStep
+        if (i > unlockedStep) {
+            step.classList.add("locked");
+        }
 
         const desc = document.createElement("div");
         desc.classList.add("desc");
@@ -262,13 +271,19 @@ function createSteps() {
 }
 
 function handleStepClick(stepId) {
-    if(stepId !== 1){
+
+    if(stepId > unlockedStep){
         showNotification("Complete previous step.");
         return;
     }
 
-    // Only first bubble action
-    window.location.href = "course1.html";
+    // Step routing
+    if(stepId === 1){
+        window.location.href = "course1.html";
+    }
+    else if(stepId === 2){
+        window.location.href = "course2.html";
+    }
 }
 
 function showNotification(msg){
@@ -278,22 +293,9 @@ function showNotification(msg){
 }
 
 createSteps();
-</script>
-    <script>
-
-// Check unlock status
-if(localStorage.getItem("session1_unlocked") === "true"){
-    
-    const bubble2 = document.getElementById("bubble2");
-    
-    bubble2.classList.remove("locked");
-    bubble2.classList.add("active");
-
-    bubble2.style.opacity = "1";
-    bubble2.style.pointerEvents = "auto";
-}
 
 </script>
+   
 
 </body>
 </html>
