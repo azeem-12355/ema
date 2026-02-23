@@ -10,7 +10,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: 'Inter', sans-serif;
+font-family:'Inter',sans-serif;
 }
 
 body{
@@ -76,10 +76,7 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:18px;
-font-weight:600;
-letter-spacing:2px;
-color:#fff;
+font-size:70px;
 }
 
 .silver{background:linear-gradient(145deg,#BFC0C0,#7D7D7D);}
@@ -140,7 +137,6 @@ transition:0.3s;
 button:hover{
 opacity:0.85;
 }
-
 </style>
 </head>
 <body>
@@ -151,6 +147,7 @@ opacity:0.85;
 
 <script>
 
+// LOCK IF OPENED DIRECTLY
 if(!localStorage.getItem("labScore")){
 document.getElementById("content").innerHTML = `
 <h1>Access Restricted</h1>
@@ -163,6 +160,7 @@ let score=parseFloat(localStorage.getItem("labScore"))||0;
 let xp=parseInt(localStorage.getItem("labXP"))||0;
 let totalXP=parseInt(localStorage.getItem("totalXP"))||0;
 
+// LEVEL SYSTEM
 function getLevel(xp){
 if(xp>=5500)return{level:10,next:5500};
 if(xp>=4000)return{level:9,next:5500};
@@ -178,6 +176,7 @@ return{level:1,next:200};
 
 let levelData=getLevel(totalXP);
 
+// BADGE TIERS
 let medalClass="";
 let badgeName="";
 let medalIcon="";
@@ -197,11 +196,12 @@ medalClass="silver";
 badgeName="Silver Founder";
 medalIcon="🥈";
 }
+
 document.getElementById("content").innerHTML=`
 <h1>${badgeName}</h1>
 <p class="subtitle">${score}% Achievement</p>
 
-<div class="medal ${medalClass}" style="font-size:70px;">
+<div class="medal ${medalClass}">
 ${medalIcon}
 </div>
 
@@ -224,22 +224,33 @@ ${medalIcon}
 <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<button onclick="window.location.href='session1.html'">Continue</button>
+<button id="continueBtn">Continue</button>
+`;
+
+// XP COUNTER ANIMATION
 let count=0;
 let interval=setInterval(()=>{
-if(count>=xp){clearInterval(interval);}
-else{
+if(count>=xp){
+clearInterval(interval);
+}else{
 count+=Math.ceil(xp/40);
 if(count>xp)count=xp;
 document.getElementById("xpCounter").innerText=count;
 }
 },30);
 
+// PROGRESS BAR
 let progressPercent=(totalXP/levelData.next)*100;
 if(progressPercent>100)progressPercent=100;
+
 setTimeout(()=>{
 document.getElementById("progressFill").style.width=progressPercent+"%";
 },300);
+
+// CONTINUE BUTTON → session1.html
+document.getElementById("continueBtn").addEventListener("click",function(){
+window.location.href="session1.html";
+});
 
 }
 
