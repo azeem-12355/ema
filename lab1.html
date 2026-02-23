@@ -346,7 +346,7 @@ function finishAssessment(){
 loadQuestion();
 
 </script>
-function finishAssessment(){
+<script>function finishAssessment(){
 
     let percentage = Math.round((score / questions.length) * 100);
     let xpEarned = score * XP_PER_CORRECT;
@@ -363,5 +363,6 @@ function finishAssessment(){
     // ✅ Redirect properly
     window.location.href = "badge1.html?score=" + percentage;
 }
+</script>
 </body>
 </html>
