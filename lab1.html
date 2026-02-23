@@ -346,6 +346,14 @@ function finishAssessment(){
 loadQuestion();
 
 </script>
+<script>
+
+function finishQuiz() {
+    let percentage = (score / questions.length) * 100;
+    window.location.href = "badge1.html?score=" + percentage;
+}
+
+</script>
 
 </body>
 </html>
