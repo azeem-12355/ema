@@ -180,20 +180,23 @@ let levelData=getLevel(totalXP);
 
 let medalClass="";
 let badgeName="";
+let medalIcon="";
 
 if(score===100){
 medalClass="diamond";
 badgeName="Diamond Apex Founder";
+medalIcon="💎";
 }
 else if(score>=90){
 medalClass="gold";
 badgeName="Gold Visionary Founder";
+medalIcon="🥇";
 }
 else{
 medalClass="silver";
 badgeName="Silver Founder";
+medalIcon="🥈";
 }
-
 document.getElementById("content").innerHTML=`
 <h1>${badgeName}</h1>
 <p class="subtitle">${score}% Achievement</p>
@@ -242,5 +245,4 @@ document.getElementById("progressFill").style.width=progressPercent+"%";
 
 </script>
 </body>
-</html>
 </html>
