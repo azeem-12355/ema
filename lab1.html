@@ -346,12 +346,22 @@ function finishAssessment(){
 loadQuestion();
 
 </script>
-<script>
+function finishAssessment(){
 
-function finishQuiz(){
-    let percentage = (score / questions.length) * 100;
-  window.location.href = "badge1.html?score=" + percentage;
+    let percentage = Math.round((score / questions.length) * 100);
+    let xpEarned = score * XP_PER_CORRECT;
 
-</script>
+    localStorage.setItem("labScore", percentage);
+    localStorage.setItem("labXP", xpEarned);
+
+    if(percentage >= PASS_PERCENTAGE){
+        localStorage.setItem("course1Passed","true");
+    } else {
+        localStorage.setItem("course1Passed","false");
+    }
+
+    // ✅ Redirect properly
+    window.location.href = "badge1.html?score=" + percentage;
+}
 </body>
 </html>
