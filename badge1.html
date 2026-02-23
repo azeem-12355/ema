@@ -94,9 +94,8 @@ opacity:0.85;
 
 <script>
 
-// Get score from URL
-const params = new URLSearchParams(window.location.search);
-const score = parseFloat(params.get("score")) || 0;
+// Get score from localStorage
+let score = parseFloat(localStorage.getItem("labScore")) || 0;
 
 const container = document.getElementById("result-container");
 
@@ -123,10 +122,10 @@ function continueNext(){
 window.location.href = "homepage.html"; 
 }
 
-
 function retryTest(){
-    window.location.href = "lab1.html";
+window.location.href = "lab1.html";
 }
+
 </script>
 </body>
 </html>
