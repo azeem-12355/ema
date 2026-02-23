@@ -249,9 +249,12 @@ document.getElementById("progressFill").style.width=progressPercent+"%";
 
 // CONTINUE BUTTON → session1.html
 document.getElementById("continueBtn").addEventListener("click",function(){
+
+// Unlock next bubble
+localStorage.setItem("session1_unlocked", "true");
+
 window.location.href="session1.html";
 });
-
 }
 
 </script>
