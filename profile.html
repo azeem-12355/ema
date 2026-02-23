@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder Profile</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  background:#0B0F1A;
+  color:#E5E7EB;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+/* Profile Card */
+.profile-card{
+  width:850px;
+  max-width:95%;
+  background:#111827;
+  border-radius:28px;
+  padding:50px;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6);
+  overflow:hidden;
+  position:relative;
+}
+
+/* Header */
+.profile-header{
+  display:flex;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+.avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:#2563EB;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  font-weight:700;
+  color:white;
+  margin-right:25px;
+  overflow:hidden;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.user-info h1{
+  font-size:28px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+.user-info p{
+  font-size:14px;
+  opacity:0.6;
+}
+
+/* Buttons */
+#changeNameBtn, #uploadAvatarBtn{
+  margin-top:10px;
+  padding:6px 12px;
+  font-size:13px;
+  border:none;
+  border-radius:6px;
+  background:#3B82F6;
+  cursor:pointer;
+  color:white;
+  transition:0.3s;
+  margin-right:8px;
+}
+#changeNameBtn:hover, #uploadAvatarBtn:hover{
+  opacity:0.85;
+}
+
+/* Stats Grid */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+  margin-top:30px;
+}
+
+.stat{
+  background:#0F172A;
+  padding:25px;
+  border-radius:16px;
+  text-align:center;
+}
+
+.stat h3{
+  font-size:12px;
+  opacity:0.5;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+
+.stat p{
+  font-size:22px;
+  font-weight:600;
+}
+
+/* Progress Bar */
+.progress{
+  margin-top:25px;
+  height:10px;
+  background:#1F2937;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:10px;
+  width:0%;
+  background:linear-gradient(90deg,#3B82F6,#2563EB);
+  transition:1.2s ease;
+}
+
+/* Badges Section */
+.badges{
+  margin-top:40px;
+}
+
+.badges h2{
+  font-size:20px;
+  margin-bottom:20px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  margin-right:15px;
+  font-size:24px;
+  color:white;
+  font-weight:600;
+  margin-bottom:15px;
+  position:relative;
+  cursor:default;
+}
+
+.badge:hover .tooltip{
+  opacity:1;
+  transform: translateY(-10px);
+}
+
+.tooltip{
+  position:absolute;
+  bottom:100%;
+  left:50%;
+  transform:translateX(-50%) translateY(0);
+  background:#2563EB;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  white-space:nowrap;
+  opacity:0;
+  transition:0.3s;
+  pointer-events:none;
+}
+
+/* Badge Colors */
+.silver{background:linear-gradient(145deg,#BFC0C0,#7D7D7D);}
+.gold{background:linear-gradient(145deg,#FFD700,#C9A000);}
+.diamond{background:linear-gradient(145deg,#00F5FF,#0057FF);}
+
+/* Buttons */
+button.main-btn{
+  margin-top:30px;
+  padding:12px 28px;
+  border:none;
+  border-radius:12px;
+  background:#2563EB;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+button.main-btn:hover{
+  opacity:0.85;
+}
+</style>
+</head>
+<body>
+
+<div class="profile-card">
+  <div class="profile-header">
+    <div class="avatar" id="avatar">👤</div>
+    <div class="user-info">
+      <h1 id="userName">Founder Name</h1>
+      <p>Level <span id="level">1</span> | Total XP: <span id="totalXP">0</span></p>
+      <button id="changeNameBtn">Change Name</button>
+      <button id="uploadAvatarBtn">Upload Avatar</button>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none">
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <h3>XP Earned</h3>
+      <p id="xpEarned">0</p>
+    </div>
+    <div class="stat">
+      <h3>Progress to Next Level</h3>
+      <p id="nextLevelPercent">0%</p>
+    </div>
+    <div class="stat">
+      <h3>Sessions Completed</h3>
+      <p id="sessionsCompleted">0</p>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="badges">
+    <h2>Badges Earned</h2>
+    <div id="badgeContainer"></div>
+  </div>
+
+  <button class="main-btn" onclick="window.location.href='homepage.html'">Back to Homepage</button>
+</div>
+
+<script>
+// USER NAME
+let userName = localStorage.getItem("userName") || "Founder Name";
+document.getElementById("userName").innerText = userName;
+
+// CHANGE NAME BUTTON
+document.getElementById("changeNameBtn").addEventListener("click",()=>{
+    let newName = prompt("Enter your name:", userName);
+    if(newName && newName.trim()!==""){
+        userName = newName.trim();
+        localStorage.setItem("userName", userName);
+        document.getElementById("userName").innerText = userName;
+
+        // Update avatar initials if no image
+        if(!localStorage.getItem("avatarImage")){
+            const initials = userName.split(" ").map(n=>n[0].toUpperCase()).join("").slice(0,2);
+            document.getElementById("avatar").innerText = initials;
+        }
+    }
+});
+
+// AVATAR UPLOAD
+const avatarInput = document.getElementById("avatarInput");
+document.getElementById("uploadAvatarBtn").addEventListener("click",()=>{
+    avatarInput.click();
+});
+
+avatarInput.addEventListener("change",(e)=>{
+    const file = e.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(event){
+            const imgData = event.target.result;
+            localStorage.setItem("avatarImage", imgData);
+            document.getElementById("avatar").innerHTML = `<img src="${imgData}" alt="avatar">`;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// LOAD AVATAR IF EXIST
+const savedAvatar = localStorage.getItem("avatarImage");
+if(savedAvatar){
+    document.getElementById("avatar").innerHTML = `<img src="${savedAvatar}" alt="avatar">`;
+} else if(userName!=="Founder Name"){
+    const initials = userName.split(" ").map(n=>n[0].toUpperCase()).join("").slice(0,2);
+    document.getElementById("avatar").innerText = initials;
+}
+
+// XP & Level
+let totalXP = parseInt(localStorage.getItem("totalXP")) || 0;
+let xpEarned = parseInt(localStorage.getItem("labXP")) || 0;
+
+function getLevel(xp){
+  if(xp>=5500)return{level:10,next:5500};
+  if(xp>=4000)return{level:9,next:5500};
+  if(xp>=3000)return{level:8,next:4000};
+  if(xp>=2200)return{level:7,next:3000};
+  if(xp>=1500)return{level:6,next:2200};
+  if(xp>=1000)return{level:5,next:1500};
+  if(xp>=700)return{level:4,next:1000};
+  if(xp>=400)return{level:3,next:700};
+  if(xp>=200)return{level:2,next:400};
+  return{level:1,next:200};
+}
+
+let levelData = getLevel(totalXP);
+document.getElementById("level").innerText = levelData.level;
+document.getElementById("totalXP").innerText = totalXP;
+
+// XP COUNTER ANIMATION
+let count = 0;
+let interval = setInterval(()=>{
+  if(count>=xpEarned){
+    clearInterval(interval);
+  } else {
+    count+=Math.ceil(xpEarned/40);
+    if(count>xpEarned) count=xpEarned;
+    document.getElementById("xpEarned").innerText = count;
+  }
+},30);
+
+// PROGRESS BAR
+let progressPercent = Math.floor((totalXP/levelData.next)*100);
+if(progressPercent>100) progressPercent=100;
+document.getElementById("nextLevelPercent").innerText = progressPercent + "%";
+document.getElementById("progressFill").style.width = progressPercent + "%";
+
+// SESSIONS COMPLETED
+let sessionsCompleted = parseInt(localStorage.getItem("sessionsCompleted")) || 0;
+document.getElementById("sessionsCompleted").innerText = sessionsCompleted;
+
+// BADGES
+const badgeContainer = document.getElementById("badgeContainer");
+let badges = JSON.parse(localStorage.getItem("badges")) || [];
+if(badges.length===0){
+  badgeContainer.innerHTML="<p>No badges yet. Complete labs to earn badges!</p>";
+} else {
+  badges.forEach(b=>{
+    const div = document.createElement("div");
+    div.classList.add("badge", b.class);
+    div.innerHTML = `${b.icon}<span class="tooltip">${b.name}</span>`;
+    badgeContainer.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
