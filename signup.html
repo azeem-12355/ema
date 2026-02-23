@@ -1,191 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up - EMA</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#0f0c29,#1a1a40,#000);
-color:white;
-}
-
-.container{
-background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-backdrop-filter:blur(20px);
-box-shadow:0 0 40px rgba(0,0,0,0.6);
-width:90%;
-max-width:400px;
-text-align:center;
-}
-
-h2{
-margin-bottom:20px;
-background:linear-gradient(90deg,#00f5ff,#9f00ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-input{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:none;
-margin-bottom:15px;
-outline:none;
-}
-
-button{
-width:100%;
-padding:12px;
-border-radius:50px;
-border:none;
-font-weight:600;
-cursor:pointer;
-margin-top:10px;
-transition:0.4s;
-background:linear-gradient(90deg,#00f5ff,#9f00ff);
-color:white;
-}
-
-button:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #9f00ff;
-}
-
-.error{
-color:#ff4d4d;
-font-size:0.85rem;
-margin-bottom:10px;
-}
-
-.toggle{
-margin-top:15px;
-font-size:0.85rem;
-color:#aaa;
-cursor:pointer;
-}
-
-.toggle span{
-color:#00f5ff;
-}
-</style>
-</head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Signup | Billion-Dollar Minds Academy</title><link rel="stylesheet" href="styles.css"/></head>
 <body>
-
-<div class="container">
-<h2 id="formTitle">Create Account</h2>
-
-<input type="text" id="name" placeholder="Enter Your Name">
-<input type="email" id="email" placeholder="Enter Gmail (example@gmail.com)">
-<input type="password" id="password" placeholder="Password">
-<input type="password" id="confirmPassword" placeholder="Confirm Password">
-
-<div class="error" id="error"></div>
-
-<button id="mainBtn">Continue</button>
-
-<div class="toggle" id="toggleText">
-Already have an account? <span>Login</span>
-</div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { 
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCgQFMj6e8c1JPe7JToDthsEwK-47OhEok",
-  authDomain: "entrepreneurmastery-1b171.firebaseapp.com",
-  projectId: "entrepreneurmastery-1b171",
-  storageBucket: "entrepreneurmastery-1b171.firebasestorage.app",
-  messagingSenderId: "515340846903",
-  appId: "1:515340846903:web:0f7a9d0dd55e7f737abcb2",
-  measurementId: "G-P7M1HKQ52T"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-let isLogin = false;
-
-const toggle = document.getElementById("toggleText");
-const confirmPassword = document.getElementById("confirmPassword");
-const nameInput = document.getElementById("name");
-const mainBtn = document.getElementById("mainBtn");
-const title = document.getElementById("formTitle");
-const error = document.getElementById("error");
-
-toggle.addEventListener("click", ()=>{
-error.textContent="";
-if(!isLogin){
-title.textContent="Login";
-confirmPassword.style.display="none";
-nameInput.style.display="none";
-mainBtn.textContent="Login";
-toggle.innerHTML='Don’t have an account? <span>Sign Up</span>';
-isLogin=true;
-}else{
-title.textContent="Create Account";
-confirmPassword.style.display="block";
-nameInput.style.display="block";
-mainBtn.textContent="Continue";
-toggle.innerHTML='Already have an account? <span>Login</span>';
-isLogin=false;
-}
-});
-
-mainBtn.addEventListener("click", async ()=>{
-const name=nameInput.value.trim();
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
-const confirm=document.getElementById("confirmPassword").value;
-
-error.textContent="";
-
-const gmailPattern=/^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-if(!gmailPattern.test(email)){
-error.textContent="Only Gmail addresses allowed.";
-return;
-}
-
-try{
-if(!isLogin){
-if(name===""){
-error.textContent="Please enter your name.";
-return;
-}
-if(password!==confirm){
-error.textContent="Passwords do not match.";
-return;
-}
-await createUserWithEmailAndPassword(auth,email,password);
-localStorage.setItem("emaName", name);
-}else{
-await signInWithEmailAndPassword(auth,email,password);
-}
-
-window.location.assign("./welcome.html");
-
-}catch(err){
-error.textContent=err.message;
-}
-});
-</script>
-
+  <div class="page-wrap">
+    <form id="signupForm" class="glass form-card">
+      <h2>Join the Academy</h2>
+      <p class="muted">Create your executive account to unlock your roadmap.</p>
+      <label class="field">Name<input name="name" required /></label>
+      <label class="field">Email<input type="email" name="email" required /></label>
+      <label class="field">Password<input type="password" name="password" required /></label>
+      <label class="field">Confirm Password<input type="password" name="confirm_password" required /></label>
+      <div id="errorBubble" class="error-bubble"></div>
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
